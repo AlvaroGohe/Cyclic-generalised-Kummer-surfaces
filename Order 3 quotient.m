@@ -187,6 +187,7 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  J := ideal< CoordinateRing(PW) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..6]] >;
  MinimalBasis(J);
  X3 := Scheme(PW,MinimalBasis(J));
+ Wpi := map<WJ->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k1^2 + k2*k3 + 2*v2), k3*(k1*k2 + k3^2 + 2*v3)]>;
  P1<x1,x2> := ProjectiveSpace(Q0,1);
  fib := map<X3->P1|[c1,c2]>;
  G1 := Pullback(fib,P1![1,-2]);
@@ -204,14 +205,17 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  [IsSingular(Proj3X3!proj3(pt)): pt in singpts];
  [ADEtype(Proj3X3!proj3(pt)): pt in singpts];
  [IsSingular(Proj3X3!proj3(pt)): pt in notsing];
+ Wjnotsing := [Pullback(pt): pt in pts];
 
 
  PWw<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := ProjectiveSpace(Q0, [1,2,2,2,2,3,3,3,3,3,3,3,3,3,4]);
- Wpi := map<WJ->PWw | [k3, k1*k2, k1*k4, k3^2 + 2*v3, 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
- Jw := ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..8]] >;
- ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..4]] >;
+ Wpiw := map<WJ->PWw | [k3, k1*k2, k1*k4, k3^2 + 2*v3, 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
+ Jw := ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpiw,WJ,d)) : d in  [1..8]] >;
+ ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpiw,WJ,d)) : d in  [1..4]] >;
  MinimalBasis(Jw);
  X3w := Scheme(PWw,MinimalBasis(Jw));
+ Wpiw := map<WJ->X3w | [k3, k1*k2, k1*k4, k3^2 + 2*v3, 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
+ 
  HSX3w  := HilbertSeries(Ideal(DefiningPolynomials(X3w)));
 
 

@@ -194,18 +194,41 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  P13<c111, c112, c122, c222, c1d1, c1d2, c1vw, c2d1, c2d2, c2vw, kvvv, kwww, kvdw, kwdv> := ProjectiveSpace(Q0, 13);
  proj3 := map<X3->P13 | [c1^3, c1^2*c2, c1*c2^2, c2^3, c1*d1, c1*d2, c1*cvw, c2*d1, c2*d2, c2*cvw, cvvv, cwww, cvdw, cwdv]>;
  Proj3X3 := Scheme(P13, MinimalBasis(Image(proj3)));
+ proj3 := map<X3->Proj3X3 | [c1^3, c1^2*c2, c1*c2^2, c2^3, c1*d1, c1*d2, c1*cvw, c2*d1, c2*d2, c2*cvw, cvvv, cwww, cvdw, cwdv]>;
+ Fib3 := map<Proj3X3->P1 |[c111,c112]>;
+ G1 := Pullback(Fib3,P1![1,-2]);
  proj2 := map<X3->P5 |[c1^2, c1*c2, c2^2, d1, d2, cvw]>;
- Proj2X3 := Scheme(P5,MinimalBasis(Image(proj2)));
+ // Proj2X3 := Scheme(P5,MinimalBasis(Image(proj2)));
+ Proj2X3 := Scheme(P5,[c11*c22 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c12^2 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c11^2 + 3*c11*c12 + 4*b1^2 + 2*b1*b2 + c12*kvw + 3*kvw^2]);
  sPtX3 := [Pullback(proj2, pt): pt in SingularPoints(Proj2X3)];
  setPtX3:= SetToSequence(SequenceToSet(&cat [IrreducibleComponents(ReducedSubscheme(pt)): pt in sPtX3]));
  ArithmeticGenus(setPtX3[6]);
- pts := [X3![0,0,0,0,0,4,0,1,0], X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0],X3![0,1,0,0,0,0,0,0,0] ];
+ sppts := [X3![0,0,0,0,0,4,0,1,0], X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0],X3![0,1,0,0,0,0,0,0,0] ];
  notsing := [X3![0,0,0,0,0,4,0,1,0],X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0]];
  singpts := [X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,1,0,0,0,0,0,0,0]];
  [IsSingular(Proj3X3!proj3(pt)): pt in singpts];
- [ADEtype(Proj3X3!proj3(pt)): pt in singpts];
+ // [ADEtype(Proj3X3!proj3(pt)): pt in singpts]; These are all A2 but take a long time to evaluate
  [IsSingular(Proj3X3!proj3(pt)): pt in notsing];
- Wjnotsing := [Pullback(pt): pt in pts];
+ // Wjnotsing := [Pullback(Wpi,pt): pt in pts];
+ schsingpts := &cat [IrreducibleComponents(ReducedSubscheme(Pullback(Wpi,pt))):pt in singpts];
+ singpts3WJ := [WJ![0,1,0,0,-1,0,0,0,0,0], WJ![0,1,0,0,0,0,0,0,0,0], WJ![0,1,0,1,-1,0,0,-1,0,0], WJ![0,1,0,1,0,0,0,0,0,0], WJ![0,0,0,1,0,0,0,0,0,0]];
+ schnotsing := &cat [IrreducibleComponents(Scheme(WJ, [k3^3, k3*(k1*k2 + k3^2 + 2*v3), 4*k1^3+k1*(k1^2 + k2*k3 + 2*v2),k2,k4,k2^2 + k1*k3 + 2*v1])), IrreducibleComponents(Scheme(WJ, [k1^3, k1*(k1^2 + k2*k3 + 2*v2), k3^3-k3*(k1*k2 + k3^2 + 2*v3),k2,k4,k2^2 + k1*k3 + 2*v1])), IrreducibleComponents(Scheme(WJ, [k1^3, k1*(k1^2 + k2*k3 + 2*v2), k3^3+k3*(k1*k2 + k3^2 + 2*v3),k2,k4,k2^2 + k1*k3 + 2*v1])), IrreducibleComponents(Scheme(WJ, [k3^3, k3*(k1*k2 + k3^2 + 2*v3), k1^3+k1*(k1^2 + k2*k3 + 2*v2),k2,k4,k2^2 + k1*k3 + 2*v1]))];
+ notsingpts3WJ :=[WJ![1,0,0,0,0,0,0,0,-1,0], WJ![0,0,1,0,0,0,0,0,0,-1], WJ![0,0,1,0,0,0,-1,0,0,0], WJ![1,0,0,0,0,-1,0,0,0,0]];
+ pts3WJ := singpts3WJ cat notsingpts3WJ;
+ IC2 := IrreducibleComponents(Scheme(X3,[c1, c2, d1, d2, cvw]));
+ [Dimension(V): V in IC2];
+ [Degree(V): V in IC2];
+ HSWJ := HilbertSeries(Ideal(DefiningPolynomials(WJ)));
+ HSX3 := HilbertSeries(Ideal(DefiningPolynomials(X3)));
+ FindFirstGenerators(HSWJ);
+ HilbertNumerator(HSWJ,[1,1,1,1,2,2,2,2,2,2]);
+ Ser<t> := PowerSeriesRing(Rationals(),8);
+ Ser!HSX3;
+
+ // What happens to the Hilbert series of ALL negative elements?
+ PW2<w1, w2, w3, w4, w5, w6, w11, w12, w13, w14, w15, w16, w21, w22, w23, w24, w25, w26, w31, w32, w33, w34> := ProjectiveSpace(Q0, [2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]);
+ projsp := map< WJ -> PW2 | [v1, v2, v3, v4, v5, v6, k1*v1, k1*v2, k1*v3, k1*v4, k1*v5, k1*v6, k2*v1, k2*v2, k2*v3, k2*v4, k2*v5, k2*v6, k3*v1, k3*v2, k3*v3, k3*v4] >;
+ // ideal< CoordinateRing(PW2) | &cat[ DefiningEquations(Image(projsp,WJ,d)) : d in  [1..4]]>;
 
 
  PWw<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := ProjectiveSpace(Q0, [1,2,2,2,2,3,3,3,3,3,3,3,3,3,4]);
@@ -215,18 +238,35 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  MinimalBasis(Jw);
  X3w := Scheme(PWw,MinimalBasis(Jw));
  Wpiw := map<WJ->X3w | [k3, k1*k2, k1*k4, k3^2 + 2*v3, 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
- 
  HSX3w  := HilbertSeries(Ideal(DefiningPolynomials(X3w)));
-
+ [Wpiw(pts3WJ[7]), Wpiw(pts3WJ[8])];
+ P4<qww, q1v, q2v, tv1, tv2> := ProjectiveSpace(Q0,4);
+ proj2w := map<X3w->P4 |[cw^2, c1v, c2v, dv1, dv2]>;
+ Proj2X3w := Scheme(P4,MinimalBasis(ideal< CoordinateRing(P4) | &cat[ DefiningEquations(Image(proj2w,X3w,d)) : d in  [1..4]] >));
+ proj2w := map<X3w->Proj2X3w |[cw^2, c1v, c2v, dv1, dv2]>;
+ sPtX3w := [Pullback(proj2w, pt): pt in SingularPoints(Proj2X3w)];
+ setPtX3w:= SetToSequence(SequenceToSet(&cat [IrreducibleComponents(ReducedSubscheme(pt)): pt in sPtX3w]));
+ spptsw := [PWw![0, 0, 0, 0, 0, 4, 0, 0, 0, 0, -1, 0, 0, 0, 0], PWw![0, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0], PWw![0, 0, 0, 0, 0, 4, 4, 4, 4, 0, 4, -1, 0, 0, 0], PWw![0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 4, -1, 0, 0, 0], PWw![0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, -1, 0, 0], PWw![0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, -1, 0], PWw![0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], PWw![3, 0, 0, 3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], PWw![1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ];
+ ICw := IrreducibleComponents(Scheme(X3w,[cw, c1v, c2v, dv1, dv2]));
+ IrreducibleComponents(Scheme(X3w,[cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2]));
+ rpt := IrreducibleComponents(ReducedSubscheme(Scheme(Proj2X3w,[qww-q1v, q2v+3*tv1])));
+ ptsP2X3w:=Points(Proj2X3w); 
+ IrreducibleComponents(Pullback(proj2w,ptsP2X3w[2]));
+ P13<kwww, k1wv, k2wv, kwdv1, kwdv2, k111, k112, k122, k222, kvvv, k1d1, k1d2, kvdw1, kvdw2> := ProjectiveSpace(Q0,13);
+ proj3w := map<X3w->P13 |[cw^3, cw*c1v, cw*c2v, cw*dv1, cw*dv2,c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2]>;
+ Proj3X3w := Scheme(P13,MinimalBasis(ideal< CoordinateRing(P13) | &cat[ DefiningEquations(Image(proj3w,X3w,d)) : d in  [1..2]] >));
 
 
  PWv<cv, c1w, c2w, dw1, dw2, c111, c112, c122, c222, cwww, c1d1, c1d2, cwdv1, cwdv2, c22dv2>  := ProjectiveSpace(Q0, [1,2,2,2,2,3,3,3,3,3,3,3,3,3,4]);
- Wpi := map<WJ->PWv | [k1, k2*k3, k3*k4, k2*k3 + 2*v2, k3*k4 + 2*v5, k2^3, k2^2*k4, k2*k4^2, k4^3, k3^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k3*(k3^2 + 2*v3), 2*k3*v6, 2*k4^2*v6]>;
- Jv := ideal< CoordinateRing(PWv) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..8]] >;
- ideal< CoordinateRing(PWv) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..4]] >;
+ Wpiv := map<WJ->PWv | [k1, k2*k3, k3*k4, k2*k3 + 2*v2, k3*k4 + 2*v5, k2^3, k2^2*k4, k2*k4^2, k4^3, k3^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k3*(k3^2 + 2*v3), 2*k3*v6, 2*k4^2*v6]>;
+ Jv := ideal< CoordinateRing(PWv) | &cat[ DefiningEquations(Image(Wpiv,WJ,d)) : d in  [1..8]] >;
+ ideal< CoordinateRing(PWv) | &cat[ DefiningEquations(Image(Wpiv,WJ,d)) : d in  [1..4]] >;
  MinimalBasis(Jv);
  X3v := Scheme(PWv,MinimalBasis(Jv));
+ Wpiv := map<WJ->PWv | [k1, k2*k3, k3*k4, k2*k3 + 2*v2, k3*k4 + 2*v5, k2^3, k2^2*k4, k2*k4^2, k4^3, k3^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k3*(k3^2 + 2*v3), 2*k3*v6, 2*k4^2*v6]>;
  HSX3v  := HilbertSeries(Ideal(DefiningPolynomials(X3v)));
+ [Wpiw(pts3WJ[6]), Wpiw(pts3WJ[9])];
+ 
  HSP12 := 1/((1-t)^4*(1-t^2)^6);
 
 

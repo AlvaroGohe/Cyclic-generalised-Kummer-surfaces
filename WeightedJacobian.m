@@ -19,3 +19,10 @@ function WeightedJacobian(J)
  S := Scheme(WP, weqs);
  return S;
  end function;
+
+ function JacIso(WJ, Jac)
+ WP<c1, c2, c3, c4, w1, w2, w3, w4, w5, w6> := Ambient(WJ);
+ P15<v1, v2, v3, v4, v5, v6, k11, k12, k13, k14, k22, k23, k24, k33, k34, k44> := Ambient(Jac);
+ phi := iso < WJ -> Jac | [w1, w2, w3, w4, w5, w6, c1^2, c1*c2, c1*c3, c1*c4, c2^2, c2*c3, c2*c4, c3^2, c3*c4, c4^2], [k11, k12, k13, k14, k11*v1, k11*v2, k11*v3, k11*v4, k11*v5, k11*v6] >;
+ return phi;
+ end function;

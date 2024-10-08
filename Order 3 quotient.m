@@ -227,7 +227,7 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  HilbertNumerator(HSWJ,[1,1,1,1,2,2,2,2,2,2]);
  Ser<t> := PowerSeriesRing(Rationals(),8);
  Ser!HSX3;
- phi := JacIso(Jac3,WJ);
+ phi := JacIso(WJ,Jac3);
  J3 := Jacobian(C3);
  [InverseGamma(J3, phi(pt)): pt in pts3WJ];
  [3*InverseGamma(J3, phi(pt)): pt in pts3WJ];
@@ -293,11 +293,26 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  HSP12 := 1/((1-t)^4*(1-t^2)^6);
 
  // The map into the desingularisation
+ P13<c1dw1, c2dw1, c1dw2, c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := ProjectiveSpace(Q0,13);
+ pi := map<WJ->P13 | [k2*(k2*k3 + 2*v2), k4*(k2*k3 + 2*v2),  k2*(k3*k4 + 2*v5), k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
+ ideal< CoordinateRing(P13) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..1]] >;
  P10<c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := ProjectiveSpace(Q0,10);
  pi := map<WJ->P10 | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
- J10 := ideal< CoordinateRing(P10) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..2]] >;
  X3des := Scheme(P10,MinimalBasis(J10));
  ptsX3des := Points(X3des);
+ pides := map<WJ->X3des | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
+ IrreducibleComponents(Pullback(pides, ptsX3des[1]));
+ IrreducibleComponents(Pullback(pides, ptsX3des[7]));
+ [<Dimension(V), Degree(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(pides, ptsX3des[2])))];
+ [<IsSingular(pt), #IrreducibleComponents(ReducedSubscheme(Pullback(pides, pt)))>: pt in ptsX3des];
+ Proj2X3w;
+ <qww, q1v, q2v, tv1, tv2>
+ wmapv := map<X3des->Proj2X3w | [cvww, c1vv, c2vv, cvdv1, cvdv2]>;
+ IsSingular(ptsP2X3w[1]);
+ [<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[1])))];
+ [<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2])))];
+ [<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in ptsP2X3w];
+ [<pt, ADEtype(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in SingularPoints(Proj2X3w)];
 
 
 // This is how I found the invariant of degree 4 that I was missing

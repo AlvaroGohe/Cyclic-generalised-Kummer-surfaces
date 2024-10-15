@@ -196,10 +196,18 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  Proj3X3 := Scheme(P13, MinimalBasis(Image(proj3)));
  proj3 := map<X3->Proj3X3 | [c1^3, c1^2*c2, c1*c2^2, c2^3, c1*d1, c1*d2, c1*cvw, c2*d1, c2*d2, c2*cvw, cvvv, cwww, cvdw, cwdv]>;
  Fib3 := map<Proj3X3->P1 |[c111,c112]>;
- G1 := Pullback(Fib3,P1![1,-2]);
+ Fib32 := map<Proj3X3->P1 |[c122,c222]>;
+ G1 := Intersection(Pullback(Fib3,P1![1,-2]),Pullback(Fib32,P1![1,-2]));
+ Cu := Scheme(P13,DefiningEquations(IrreducibleComponents(G1)[1]));
+ ptO := Cu!Points(Cu)[1]; 
+ D := Divisor(ptO);
+ // P4<[x]> := ProjectiveSpace(Q0, 7);
+ // fibphi := map<Proj3X3->P4 | [c1vw, c2d1, c2d2, c2vw, kvvv, kwww, kvdw, kwdv]>;
+ // ideal< CoordinateRing(P4) | &cat[ DefiningEquations(Image(fibphi,IC,d)) : d in  [1..3]] >;
  proj2 := map<X3->P5 |[c1^2, c1*c2, c2^2, d1, d2, cvw]>;
  // Proj2X3 := Scheme(P5,MinimalBasis(Image(proj2)));
  Proj2X3 := Scheme(P5,[c11*c22 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c12^2 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c11^2 + 3*c11*c12 + 4*b1^2 + 2*b1*b2 + c12*kvw + 3*kvw^2]);
+ ptsP2X3 := Points(Proj2X3);
  sPtX3 := [Pullback(proj2, pt): pt in SingularPoints(Proj2X3)];
  setPtX3:= SetToSequence(SequenceToSet(&cat [IrreducibleComponents(ReducedSubscheme(pt)): pt in sPtX3]));
  ArithmeticGenus(setPtX3[6]);
@@ -298,6 +306,7 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  ideal< CoordinateRing(P13) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..1]] >;
  P10<c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := ProjectiveSpace(Q0,10);
  pi := map<WJ->P10 | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
+ J10 := ideal< CoordinateRing(P10) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..2]] >;
  X3des := Scheme(P10,MinimalBasis(J10));
  ptsX3des := Points(X3des);
  pides := map<WJ->X3des | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
@@ -306,14 +315,17 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  [<Dimension(V), Degree(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(pides, ptsX3des[2])))];
  [<IsSingular(pt), #IrreducibleComponents(ReducedSubscheme(Pullback(pides, pt)))>: pt in ptsX3des];
  Proj2X3w;
- <qww, q1v, q2v, tv1, tv2>
+ <qww, q1v, q2v, tv1, tv2>;
  wmapv := map<X3des->Proj2X3w | [cvww, c1vv, c2vv, cvdv1, cvdv2]>;
  IsSingular(ptsP2X3w[1]);
  [<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[1])))];
- [<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2])))];
+ [<V, ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2])))];
  [<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in ptsP2X3w];
  [<pt, ADEtype(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in SingularPoints(Proj2X3w)];
-
+ redsch:=ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2]));
+ wmap:= map<X3des->Proj2X3 | [c11w, c12w, c22w, cwd1, cwd2, cvww]>;
+ [<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmap,pt)))]>: pt in ptsP2X3];
+ 
 
 // This is how I found the invariant of degree 4 that I was missing
  pols := [k1^2*k2^2, k1^2*k2*k4, k1^2*k4^2, k2^3*k3, k2^2*k3*k4, k2*k3*k4^2, k3*k4^3, k1^3*k3, k1*k2*k3^2, k1*k3^2*k4, k3^4, k1^2*(k2^2 + k1*k3 + 2*v1), k2*k3*(k2^2 + k1*k3 + 2*v1),  k3*k4*(k2^2 + k1*k3 + 2*v1), k1^2*(k2*k4 + 2*v4), k2*k3*(k2*k4 + 2*v4), k3*k4*(k2*k4 + 2*v4), k1*k2*(k3^2 + 2*v3), k1*k4*(k3^2 + 2*v3), k3^2*(k3^2 + 2*v3), (k3^2 + 2*v3)^2,  2*k1*k2*v6, 2*k1*k4*v6, 2*k3^2*v6, 2*(k3^2 + 2*v3)*v6, 4*v6^2, k2^2*(k2*k3 + 2*v2), k2*k4*(k2*k3 + 2*v2), k4^2*(k2*k3 + 2*v2), k1*k3*(k2*k3 + 2*v2),  (k2^2 + k1*k3 + 2*v1)*(k2*k3 + 2*v2), (k2*k3 + 2*v2)*(k2*k4 + 2*v4), k2^2*(k3*k4 + 2*v5), k2*k4*(k3*k4 + 2*v5), k4^2*(k3*k4 + 2*v5), k1*k3*(k3*k4 + 2*v5),  (k2^2 + k1*k3 + 2*v1)*(k3*k4 + 2*v5), (k2*k4 + 2*v4)*(k3*k4 + 2*v5)];

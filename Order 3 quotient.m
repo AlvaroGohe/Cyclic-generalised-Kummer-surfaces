@@ -227,17 +227,17 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  WJ := WeightedJacobian(Jacobian(C3));
  P<k1, k2, k3, k4, v1, v2, v3, v4, v5, v6> := Ambient(WJ);
  PWalt<cvdw2, cwdv2,c1, c2, d1, d2, cvw, cvvv, cwww, cvdw1, cwdv1> := ProjectiveSpace(Q0, [3,3,1,1,2,2,2,3,3,3,3]);
- Wpialt := map<WJ->PWalt | [k1*(k3*k4 + 2*v5),2*k3*v6,k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k1^2 + k2*k3 + 2*v2), k3*(k1*k2 + k3^2 + 2*v3)]>;
+ Wpialt := map<WJ->PWalt | [k1*(k3*k4 + 2*v5), k3*(k3^2 + 2*v6),k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
  Jalt := ideal< CoordinateRing(PWalt) | &cat[ DefiningEquations(Image(Wpialt,WJ,d)) : d in  [1..6]] >;
  X3alt := Scheme(PWalt,MinimalBasis(Jalt));
  PW<c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv> := ProjectiveSpace(Q0, [1,1,2,2,2,3,3,3,3]);
- Wpi := map<WJ->PW | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k1^2 + k2*k3 + 2*v2), k3*(k1*k2 + k3^2 + 2*v3)]>;
+ Wpi := map<WJ->PW | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
  J := ideal< CoordinateRing(PW) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..6]] >;
  MinimalBasis(J);
  X3 := Scheme(PW,MinimalBasis(J));
- Wpi := map<WJ->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k1^2 + k2*k3 + 2*v2), k3*(k1*k2 + k3^2 + 2*v3)]>;
+ Wpi := map<WJ->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
  //cd:=Scheme(WJ,k1*(k3*k4 + 2*v5));
- //Wpirest := map<cd->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k1^2 + k2*k3 + 2*v2), k3*(k1*k2 + k3^2 + 2*v3)]>;
+ //Wpirest := map<cd->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
  //cvdw2 := Wpi();
  //cwdv2 := Wpi(k1*(k3*k4 + 2*v5));
  // cwdv2 := Scheme(X3, &cat[ DefiningEquations(Image(Wpi,Scheme(WJ,k1*(k3*k4 + 2*v5)),d)) : d in  [1..2]]);
@@ -271,9 +271,9 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  Fib2t := map<P3X3t->P1t |[c122,c222]>;
  coordt :=[1,t];
  G1t := Intersection(Pullback(Fib1t,P1t!coordt),Pullback(Fib2t,P1t!coordt));
- Cut := IrreducibleComponents(G1t)[1];
- linest :=IrreducibleComponents(Scheme(P3X3t,[kvdw]))[2..3];
- ptO := Cut!Points(IrreducibleComponents(Intersection(linest[2],Cut))[1])[1];
+ // Cut := IrreducibleComponents(G1t)[1];
+ // linest :=IrreducibleComponents(Scheme(P3X3t,[kvdw]))[2..3];
+//  ptO := Cut!Points(IrreducibleComponents(Intersection(linest[2],Cut))[1])[1];
  // D := Divisor(ptO);
  // phi3t:= DivisorMap(3*D);
  // phi5t:= DivisorMap(5*D);
@@ -284,7 +284,7 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  IrreducibleComponents(BaseScheme(isoalt));
  proj3alt := map<X3alt->Proj3X3 | [c1^3, c1^2*c2, c1*c2^2, c2^3, c1*d1, c1*d2, c1*cvw, c2*d1, c2*d2, c2*cvw, cvvv, cwww, cvdw, cwdv]>;
 
-
+ P<c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv> := Ambient(X3);
  proj2 := map<X3->P5 |[c1^2, c1*c2, c2^2, d1, d2, cvw]>;
  // Proj2X3 := Scheme(P5,MinimalBasis(Image(proj2)));
  Proj2X3 := Scheme(P5,[c11*c22 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c12^2 + 4*b2^2 + 3*c12*kvw + c22*kvw + kvw^2, c11^2 + 3*c11*c12 + 4*b1^2 + 2*b1*b2 + c12*kvw + 3*kvw^2]);
@@ -292,14 +292,23 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  sPtX3 := [Pullback(proj2, pt): pt in SingularPoints(Proj2X3)];
  setPtX3:= SetToSequence(SequenceToSet(&cat [IrreducibleComponents(ReducedSubscheme(pt)): pt in sPtX3]));
  ArithmeticGenus(setPtX3[6]);
- sppts := [X3![0,0,0,0,0,4,0,1,0], X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0],X3![0,1,0,0,0,0,0,0,0] ];
- notsing := [X3![0,0,0,0,0,4,0,1,0],X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0]];
- singpts := [X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,1,0,0,0,0,0,0,0]];
+ ICpb := IrreducibleComponents(BaseScheme(proj2));
+ [[Dimension(Intersection(V,W)): V in ICpb]: W in ICpb];
+ [IrreducibleComponents(Intersection(V,ICpb[1])): V in ICpb];
+ [<Dimension(V), ArithmeticGenus(V)>: V in ICpb];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpb];
+ //
+ // sppts := [X3![0,0,0,0,0,4,0,1,0], X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0],X3![0,1,0,0,0,0,0,0,0] ];
+ //notsing := [X3![0,0,0,0,0,4,0,1,0],X3![0,0,0,0,0,0,1,0,-1], X3![0,0,0,0,0,0,1,0,1], X3![0,0,0,0,0,1,0,-1,0]];
+ //singpts := [X3![1,0,-1,0,0,0,0,0,0], X3![1,0,1,0,0,0,0,0,0], X3![2,2,1,1,0,0,0,0,0], X3![1,1,1,1,0,0,0,0,0], X3![0,1,0,0,0,0,0,0,0]];
  [IsSingular(Proj3X3!proj3(pt)): pt in singpts];
  // [ADEtype(Proj3X3!proj3(pt)): pt in singpts]; These are all A2 but take a long time to evaluate
  [IsSingular(Proj3X3!proj3(pt)): pt in notsing];
  ptsP3X3 := Points(Proj3X3);
  [Degree(Pullback(proj3,pt)): pt in ptsP3X3];
+
+
+
  Q0t<t> :=FunctionField(Q0);
  P2X3t<c11, c12, c22, b1, b2, kvw> := BaseExtend(Proj2X3,Q0t);
  P1t<x1,x2> := ProjectiveSpace(Q0t,1);
@@ -347,9 +356,9 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  projsp := map< WJ -> PW2 | [v1, v2, v3, v4, v5, v6, k1*v1, k1*v2, k1*v3, k1*v4, k1*v5, k1*v6, k2*v1, k2*v2, k2*v3, k2*v4, k2*v5, k2*v6, k3*v1, k3*v2, k3*v3, k3*v4] >;
  // ideal< CoordinateRing(PW2) | &cat[ DefiningEquations(Image(projsp,WJ,d)) : d in  [1..4]]>;
  
-
+ P<k1, k2, k3, k4, v1, v2, v3, v4, v5, v6> := Ambient(WJ);
  PWw<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := ProjectiveSpace(Q0, [1,2,2,2,2,3,3,3,3,3,3,3,3,3,4]);
- Wpiw := map<WJ->PWw | [k3, k1*k2, k1*k4, k3^2 + 2*v3, 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
+ Wpiw := map<WJ->PWw | [k3, k1*k2, k1*k4, k3^2 + 2*v3, k3^2 + 2*v6, k2^3, k2^2*k4, k2*k4^2, k4^3, k1^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k1*k3 + k2*k4 + 2*v4), k1*(k2*k3 + 2*v2), k1*(k3*k4 + 2*v5),  k4^2*(k3*k4 + 2*v5)]>;
  Jw := ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpiw,WJ,d)) : d in  [1..8]] >;
  ideal< CoordinateRing(PWw) | &cat[ DefiningEquations(Image(Wpiw,WJ,d)) : d in  [1..4]] >;
  MinimalBasis(Jw);
@@ -363,8 +372,21 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  proj2w := map<X3w->Proj2X3w |[cw^2, c1v, c2v, dv1, dv2]>;
  IrreducibleComponents(BaseScheme(proj2w));
  [<Dimension(V), ArithmeticGenus(V),Degree(V)>: V in IrreducibleComponents(BaseScheme(proj2w))];
- proj2walt := map<X3->P4 |[cwww, c1*cvw, c2*cvw, cwdv, -(4*c2*d1 + 4*c1*d2 + 2*c2*d2 + c2*cvw + cwww + cwdv)]>;
- Scheme(P4,MinimalBasis(ideal< CoordinateRing(P4) | &cat[ DefiningEquations(Image(proj2walt,X3,d)) : d in  [1..4]] >));
+ P<qww, q1v, q2v, tv1, tv2> :=Ambient(P4);
+ Q<c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv>:= Ambient(X3);
+ proj2walt := map<X3->Proj2X3w |[cwww, c1*cvw, c2*cvw, cwdv, -(4*c2*d1 + 4*c1*d2 + 2*c2*d2 + c1*cvw + c2*cvw + cwdv)]>;
+ ICpbw:=IrreducibleComponents(BaseScheme(proj2walt));
+ [[Dimension(Intersection(V,W)): V in ICpbw]: W in ICpbw];
+ [IrreducibleComponents(Intersection(V,ICpbw[1])): V in ICpbw];
+ [<Dimension(V), ArithmeticGenus(V)>: V in IrreducibleComponents(BaseScheme(proj2walt))];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpbw];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpb cat ICpbw];
+ sPtX3w := [Pullback(proj2walt, pt): pt in SingularPoints(Proj2X3w)];
+ setPtX3w:= SetToSequence(SequenceToSet(&cat [IrreducibleComponents(ReducedSubscheme(pt)): pt in sPtX3w]));
+ [ADEtype(pt): pt in SingularPoints(Proj2X3w)];
+ [[<Dimension(V), ArithmeticGenus(V)>: V in IrreducibleComponents(pt)]: pt in sPtX3w];
+ [[<Dimension(V), ArithmeticGenus(V)>: V in IrreducibleComponents(ReducedSubscheme(pt))]: pt in sPtX3w];
+
  // <c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv>
 
  // Fibration
@@ -444,34 +466,96 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  Wpiv := map<WJ->PWv | [k1, k2*k3, k3*k4, k2*k3 + 2*v2, k3*k4 + 2*v5, k2^3, k2^2*k4, k2*k4^2, k4^3, k3^3, k2*(k2^2 + k1*k3 + 2*v1), k2*(k2*k4 + 2*v4), k3*(k3^2 + 2*v3), 2*k3*v6, 2*k4^2*v6]>;
  HSX3v  := HilbertSeries(Ideal(DefiningPolynomials(X3v)));
  [Wpiw(pts3WJ[6]), Wpiw(pts3WJ[9])];
- 
+ P4<qvv, q1w, q2w, tw1, tw2> := ProjectiveSpace(Q0,4);
+ proj2v := map<X3v->P4 |[cv^2, c1w, c2w, dw1, dw2]>;
+ Proj2X3v := Scheme(P4,MinimalBasis(ideal< CoordinateRing(P4) | &cat[ DefiningEquations(Image(proj2v,X3v,d)) : d in  [1..4]] >));
+ proj2v := map<X3v->Proj2X3v |[cv^2, c1w, c2w, dw1, dw2]>;
+ IrreducibleComponents(BaseScheme(proj2v));
+ P<c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv> := Ambient(X3);
+ proj2valt := map<X3->Proj2X3v |[cvvv, c1*cvw, c2*cvw, cvdw, -(4*c2*d1 + c1*d2 + 2*cvvv + cvdw)]>;
+ ICpbv:=IrreducibleComponents(BaseScheme(proj2valt));
+ [[Dimension(Intersection(V,W)): V in ICpbv]: W in ICpbv];
+ [IrreducibleComponents(Intersection(V,ICpbv[1])): V in ICpbv];
+ [<Dimension(V), ArithmeticGenus(V)>: V in IrreducibleComponents(BaseScheme(proj2valt))];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpbv];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpb cat ICpbw cat ICpbv];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpb cat ICpbw[1..2] cat ICpbv[1..2]];
+ [[Dimension(Intersection(V,W)): W in setPtX3[1..5] cat setPtX3[7..10]]:  V in ICpb cat ICpbw[3..4] cat ICpbv[3..4]];
+
+
  HSP12 := 1/((1-t)^4*(1-t^2)^6);
 
  // The map into the desingularisation
  P13<c1dw1, c2dw1, c1dw2, c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := ProjectiveSpace(Q0,13);
- pi := map<WJ->P13 | [k2*(k2*k3 + 2*v2), k4*(k2*k3 + 2*v2),  k2*(k3*k4 + 2*v5), k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
+ pi := map<WJ->P13 | [k2*(k2*k3 + 2*v2), k4*(k2*k3 + 2*v2),  k2*(k3*k4 + 2*v5), k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k1*k3 + k2*k4 + 2*v4), k1*(k3^2 + 2*v3), k1*(k3^2 + 2*v6), k4*(k3*k4 + 2*v5)]>;
  ideal< CoordinateRing(P13) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..1]] >;
  P10<c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := ProjectiveSpace(Q0,10);
- pi := map<WJ->P10 | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
+ pi := map<WJ->P10 | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k1*k3 + k2*k4 + 2*v4), k1*(k3^2 + 2*v3), k1*(k3^2 + 2*v6), k4*(k3*k4 + 2*v5)]>;
  J10 := ideal< CoordinateRing(P10) | &cat[ DefiningEquations(Image(pi,WJ,d)) : d in  [1..2]] >;
  X3des := Scheme(P10,MinimalBasis(J10));
  // ptsX3des := Points(X3des);
- pides := map<WJ->X3des | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k2*k4 + 2*v4), k1*(k3^2 + 2*v3), 2*k1*v6, k4*(k3*k4 + 2*v5)]>;
- IrreducibleComponents(Pullback(pides, ptsX3des[1]));
- IrreducibleComponents(Pullback(pides, ptsX3des[7]));
+ pides := map<WJ->X3des | [k1^2*k2, k1^2*k4, k2^2*k3, k2*k3*k4, k3*k4^2, k1*k3^2, k3*(k2^2 + k1*k3 + 2*v1), k3*(k1*k3 + k2*k4 + 2*v4), k1*(k3^2 + 2*v3), k1*(k3^2 + 2*v6), k4*(k3*k4 + 2*v5)]>;
+ //IrreducibleComponents(Pullback(pides, ptsX3des[1]));
+ //IrreducibleComponents(Pullback(pides, ptsX3des[7]));
  [<Dimension(V), Degree(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(pides, ptsX3des[2])))];
  [<IsSingular(pt), #IrreducibleComponents(ReducedSubscheme(Pullback(pides, pt)))>: pt in ptsX3des];
  Proj2X3w;
- <qww, q1v, q2v, tv1, tv2>;
- wmapv := map<X3des->Proj2X3w | [cvww, c1vv, c2vv, cvdv1, cvdv2]>;
- IsSingular(ptsP2X3w[1]);
- [<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[1])))];
- [<V, ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2])))];
- [<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in ptsP2X3w];
- [<pt, ADEtype(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in SingularPoints(Proj2X3w)];
- redsch:=ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2]));
+ //<qww, q1v, q2v, tv1, tv2>;
+ wmapw := map<X3des->Proj2X3w | [cvww, c1vv, c2vv, cvdv1, cvdv2]>;
+ IC23w := IrreducibleComponents(BaseScheme(wmapw));
+ //IsSingular(ptsP2X3w[1]);
+ //[<ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[1])))];
+ //[<V, ArithmeticGenus(V),Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2])))];
+ //[<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in ptsP2X3w];
+ //[<pt, ADEtype(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv,pt)))]>: pt in SingularPoints(Proj2X3w)];
+// redsch:=ReducedSubscheme(Pullback(wmapv,ptsP2X3w[2]));
+
  wmap:= map<X3des->Proj2X3 | [c11w, c12w, c22w, cwd1, cwd2, cvww]>;
- [<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmap,pt)))]>: pt in ptsP2X3];
+ IC23 := IrreducibleComponents(BaseScheme(wmap));
+ [<Dimension(V), Degree(V)>: V in IC23];
+ Dimension(Intersection(IC23[1],IC23[2]));
+ Degree(Intersection(IC23[1],IC23[2]));
+ [<ADEtype(pt),[<Dimension(V),Degree(V)>: V in IrreducibleComponents(Pullback(wmap,pt))]>:pt in SingularPoints(Proj2X3)];
+ [<ADEtype(pt),[<Dimension(V),Degree(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmap,pt)))]>:pt in SingularPoints(Proj2X3)];
+ pre5A2 := [IrreducibleComponents(Pullback(wmap,pt))[3]: pt in SingularPoints(Proj2X3)[6..10]];
+ [[Dimension(Intersection(V,W)): V in pre5A2]: W in pre5A2];
+ conicdes := IrreducibleComponents(Pullback(wmap,SingularPoints(Proj2X3)[5]))[3];
+ [Dimension(Intersection(l,conicdes)): l in pre5A2];
+ [Dimension(Intersection(l,IC23[1])): l in pre5A2];
+ [Dimension(Intersection(l,IC23[2])): l in pre5A2];
+ [Dimension(Intersection(l,Intersection(IC23[1],IC23[2]))): l in pre5A2];
+ [Dimension(Intersection(l,conicdes)): l in IC23];
+ point2A1 := [IrreducibleComponents(Pullback(wmap,pt))[3]: pt in SingularPoints(Proj2X3)[[1,4]]];
+ [Dimension(Intersection(l,conicdes)): l in point2A1 ];
+ [Dimension(Intersection(l,IC23[1])): l in point2A1 ];
+ [Dimension(Intersection(l,IC23[2])): l in point2A1 ];
+ line2A1 := [IrreducibleComponents(Pullback(wmap,pt))[3]: pt in SingularPoints(Proj2X3)[[2,3]]];
+[Dimension(Intersection(l,conicdes)): l in line2A1 ];
+ [Dimension(Intersection(l,IC23[1])): l in line2A1 ];
+ [Dimension(Intersection(l,IC23[2])): l in line2A1 ];
+ [[Dimension(Intersection(l,w)): l in line2A1 ]: w in pre5A2];
+ [X3des!Points(pt)[1]: pt in point2A1];
+ [X3des!Points(Intersection(l,conicdes))[1]: l in line2A1];
+ [X3des!Points(Intersection(l,conicdes))[1]: l in IC23];
+ 
+
+ // <qvv, q1w, q2w, tw1, tw2>
+ P<c1vv, c2vv, c11w, c12w, c22w, cvww, cwd1, cwd2, cvdv1, cvdv2, c2dw2> := Ambient(X3des);
+ wmapv2:= map<X3des->Proj2X3v | [c2vv, c12w, c22w, -(2*c1vv + 2*c2vv + 4*cwd2 + 2*cvdv1 + cvdv2), c2dw2]>;
+ IC232v := IrreducibleComponents(BaseScheme(wmapv2));
+ [<Dimension(V), Degree(V)>: V in IC232v];
+ [[<Dimension(Intersection(l1,l2)),Degree(Intersection(l1,l2))>: l1 in IC232v]: l2 in IC232v];
+ [[Points(Intersection(l1,l2)): l1 in IC232v[1..2]]: l2 in IC232v[3..4]];
+ [<ADEtype(pt),[<Dimension(V),Degree(V)>: V in IrreducibleComponents(Pullback(wmapv2,pt))]>:pt in SingularPoints(Proj2X3v)];
+ [<ADEtype(pt),[<Dimension(V),Degree(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmapv2,pt)))]>:pt in SingularPoints(Proj2X3v)];
+ pre2A2
+
+
+ 
+ wmapv2:= map<X3des->Proj2X3v | [c2vv, c12w, c22w, -(2*c1vv + 2*c2vv + 4*cwd2 + 2*cvdv1 + cvdv2), c2dw2]>;
+ IC232v := IrreducibleComponents(BaseScheme(wmapv2));
+ 
+ //[<pt, IsSingular(pt),[<Degree(V),Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(wmap,pt)))]>: pt in ptsP2X3];
  
  // Fibration desingularisation
  Q0t<t> :=FunctionField(Q0);
@@ -537,3 +621,34 @@ cvw^3 + 10*cvvv*cwww,
 c1*c2^2*cwww + 2*d1*d2*cvw + 3*c1*cvw*cvvv + c1*cvw*cwww + 10*c2*d2*cwdv + 2*cvdw*cwdv,
 2*c2^2*cvw^2 + 7*c2*cvw*cwww + c1*d1*cvdw + 10*c2*d2*cvdw + 9*cvvv^2 + 5*cvvv*cwww + 8*cwww^2 + 6*cvdw^2 + 5*cwdv^2
 ]
+
+
+// Inverse birational transformation
+PWrev<cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1> := ProjectiveSpace(Q0, [3, 3, 3, 3, 2, 2, 2, 1, 1]);
+ Wpirev := map<WJ->PWrev | [k3*(k3^2 + 2*v3), k1*(k2*k3 + 2*v2), k3^3, k1^3, k1*k3, 
+ k2*k4 + 2*v4, k2^2 + k1*k3 + 2*v1, k4, k2]>;
+ Jrev := ideal< CoordinateRing(PWrev) | &cat[ DefiningEquations(Image(Wpirev,WJ,d)) : d in  [1..6]] >;
+ MinimalBasis(Jrev);
+ X3rev := Scheme(PWrev,MinimalBasis(Jrev));
+ simpmap := map<X3rev->PWrev | [cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1]>;
+ Image(simpmap,X3rev,4);
+ P5<c11, c12, c22, b1, b2, kvw>:= Ambient(Proj2X3);
+ P<cvw, d2, d1, c2, c1> := ProjectiveSpace(Q0, [2,2,2,1,1]);
+ PWrev<cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1> := Ambient(X3rev);
+ phi32 := map<X3rev->P | [cvw, d2, d1, c2, c1]>;
+ X2 := Image(phi32);
+ P<cvw, d2, d1, c2, c1> :=Ambient(X2);
+ phi23 := map<X2 ->X3rev | [-(c1+c2)^2*(3*c2^2*c1^2 + 4*c2*c1^3 + 3*c1^4 + 3*cvw*c2^2 + 2*cvw*c2*c1 + 4*d2*c2*c1 + 3*d1*c2*c1 + 4*cvw*c1^2 + 3*d2*c1^2 + 2*d2^2 + 4*cvw*d1 + d2*d1 + 2*d1^2),-(c1+c2)^2*(c2^2*c1^2 + 2*c2*c1^3 + cvw*c2^2 + 2*cvw*c2*c1 + 2*d1*c2*c1 + cvw*c1^2 + 3*d2*c1^2 + 4*d2^2 + 3*d2*d1),-(c1+c2)^2*(4*c2^2*c1^2 + 2*c2*c1^3 + 3*c1^4 + 4*cvw*c2^2 + cvw*c2*c1 + 2*cvw*c1^2 + 4*cvw*d1 + 4*d2*d1 + 2*d1^2), -(c1+c2)^2*(c2*c1^3 + c1^4 + 2*cvw*c2*c1 + 2*cvw*c1^2 + 4*cvw*d1 + 4*d2*d1 + 4*d1^2) ,(c1+c2)^2*cvw, (c1+c2)^2*d2, (c1+c2)^2*d1, (c1+c2)*c2, (c1+c2)*c1 ]>;
+ [<V,Dimension(V)>: V in IrreducibleComponents(ReducedSubscheme(BaseScheme(phi23)))];
+ IrreducibleComponents(Scheme(Proj2X3,[c11+c12,c12+c22]));
+ P32 := map<Proj3X3->Proj2X3 | [c111,c112, c122,c1d1, c1d2, c1vw]>;
+ P23 := map<Proj2X3->Proj3X3 | [c11*(c11+c12), c12*(c11+c12), c22*(c11+c12),c22*(c12+c22),b1*(c11+c12),b2*(c11+c12),kvw*(c11+c12),b1*(c12+c22),b2*(c12+c22),kvw*(c12+c22),-(4*c22*c11 + 2*c12*c11 + 3*c11^2 + 4*kvw*c22 + kvw*c12 + 2*kvw*c11 + 4*kvw*b1 + 4*b2*b1 + 2*b1^2),-(c11*c12 + c11^2 + 2*kvw*c12 + 2*kvw*c11 + 4*kvw*b1 + 4*b2*b1 + 4*b1^2),-(c22*c11 + 2*c12*c11 + kvw*c22 + 2*kvw*c12 + 2*b1*c12 + kvw*c11 + 3*b2*c11 + 4*b2^2 + 3*b2*b1), -(3*c22*c11 + 4*c12*c11 + 3*c11^2 + 3*kvw*c22 + 2*kvw*c12 + 4*b2*c12 + 3*b1*c12 + 4*kvw*c11 + 3*b2*c11 + 2*b2^2 + 4*kvw*b1 + b2*b1 + 2*b1^2)]>;
+P<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := Ambient(X3w);
+ simpmapw := map<X3w->PWw | [cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2]>;
+ Image(simpmapw,X3w,4);
+  PWrev<cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1> := ProjectiveSpace(Q0, [3, 3, 3, 3, 2, 2, 2, 1, 1]);
+ Wpirev := map<WJ->PWrev | [k3*(k3^2 + 2*v3), k1*(k2*k3 + 2*v2), k3^3, k1^3, k1*k3, 
+ k2*k4 + 2*v4, k2^2 + k1*k3 + 2*v1, k4, k2]>;
+ Jrev := ideal< CoordinateRing(PWrev) | &cat[ DefiningEquations(Image(Wpirev,WJ,d)) : d in  [1..6]] >;
+ MinimalBasis(Jrev);
+ X3rev := Scheme(PWrev,MinimalBasis(Jrev));

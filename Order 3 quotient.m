@@ -464,11 +464,92 @@ c1*c2^2*cwww + 2*d1*d2*cvw + 3*c1*cvw*cvvv + c1*cvw*cwww + 10*c2*d2*cwdv + 2*cvd
  P<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := Ambient(X3w);
  simpmapw := map<X3w->PWwrev | [c22dw2, cvdw2, cvdw1, c1d2, c1d1, cvvv, c222, c122, c112, c111, dv2, dv1, c2v, c1v, cw]>;
  Image(simpmapw,X3w,4);
- spP< c111, dv2, dv1, c2v, c1v, cw> := ProjectiveSpace(Q0, [3, 2, 2, 2, 2, 1]);
+ spP< x, dv2, dv1, c2v, c1v, cw> := ProjectiveSpace(Q0, [3, 2, 2, 2, 2, 1]);
  P<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := Ambient(X3w);
- spimpmapw := map<X3w->spP | [c1d1, dv2, dv1, c2v, c1v, cw]>;
- Image(spimpmapw,X3w,8);
-  PWrev<cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1> := ProjectiveSpace(Q0, [3, 3, 3, 3, 2, 2, 2, 1, 1]);
+ spimpmapw := map<X3w->spP | [cvvv, dv2, dv1, c2v, c1v, cw]>;
+ Image(spimpmapw,X3w,6);
+ Image(spimpmapw,X3w,3);
+ [<P.n,#DefiningEquations(Image(map<X3w->spP | [P.n, dv2, dv1, c2v, c1v, cw]>,X3w,4))>:n in [6..14]];
+ P[1];
+ P5<x, tv2, tv1, q2v, q1v, qww> := ProjectiveSpace(Q0,[4,1,1,1,1,1]);
+ DefiningEquations(Proj2X3w);
+ aidsch := Scheme(P5,[qww^2 + 3*qww*q1v + 4*qww*q2v + 3*q1v*tv1 + 4*tv1^2, qww*q1v^2 + 3*q1v^3 + 3*qww*q1v*q2v + q1v^2*q2v + 2*qww*q2v^2 + 3*q1v*q2v^2 + 2*q1v^2*tv1 + q1v*q2v*tv1 + 4*q2v^2*tv1 + q1v*tv1^2 + 4*q2v*tv1^2 + 3*q1v^2*tv2 + 3*q1v*q2v*tv2 + 3*q1v*tv1*tv2 + 4*q2v*tv1*tv2 + 2*q1v*tv2^2]);
+ repmap := map<X3w->P5 | [c112*c2v*cw + 4*c112*c1v*cw, dv2, dv1, c2v, c1v, cw^2]>;
+ [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw-c2v*cw)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,4))[1]>:n in [6..14]];
+ [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw+c2v*cw+3*cw^3)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,4))[1]>:n in [6..14]];
+ P5<x, tv2, tv1, q2v, q1v, qww> := ProjectiveSpace(Q0,[5,1,1,1,1,1]);
+ eqs := [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw-c2v*cw)*(c1v+c2v+3*cw^2)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,5))[1]>:n in [6..14]];
+ 
+ P13<kwww, k1wv, k2wv, kwdv1, kwdv2, k111, k112, k122, k222, kvvv, k1d1, k1d2, kvdw1, kvdw2> := ProjectiveSpace(Q0,13);
+ P<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := Ambient(X3w);
+ proj3w := map<X3w->P13 |[cw^3, cw*c1v, cw*c2v, cw*dv1, cw*dv2,c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2]>;
+ Proj3X3w := Scheme(P13,MinimalBasis(ideal< CoordinateRing(P13) | &cat[ DefiningEquations(Image(proj3w,X3w,d)) : d in  [1..2]] >));
+ proj3w := map<X3w->Proj3X3w |[cw^3, cw*c1v, cw*c2v, cw*dv1, cw*dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2]>;
+ [x-eqs[n,2]: n in [1..9]];
+ P4<qww, q1v, q2v, tv1, tv2> := Ambient(Proj2X3w);
+ eqslist := [q2v*(q1v-q2v)*(q1v+q2v+3*qww)*qww^2,
+    q2v*(q1v-q2v)*(q1v+q2v+3*qww)*qww*q1v,
+    q2v*(q1v-q2v)*(q1v+q2v+3*qww)*qww*q2v,
+    q2v*(q1v-q2v)*(q1v+q2v+3*qww)*qww*tv1,
+    q2v*(q1v-q2v)*(q1v+q2v+3*qww)*qww*tv2,
+    3*tv2*tv1*q2v*q1v^2 + 3*tv1*q2v^2*q1v^2 + 3*tv2*tv1*q1v^3 + 3*tv2*q2v*q1v^3 
+        + 3*tv1*q2v*q1v^3 + q2v^2*q1v^3 + 3*tv2*q1v^4 + 2*q2v*q1v^4 + q1v^5 + 
+        4*tv2*tv1*q1v^2*qww + 4*tv1*q2v*q1v^2*qww + q2v^2*q1v^2*qww + 
+        4*tv2*q1v^3*qww + 4*q1v^4*qww + q2v*q1v^2*qww^2 + q1v^3*qww^2 + 
+        4*q1v^2*qww^3,
+    3*tv2*tv1*q2v^2*q1v + 3*tv1*q2v^3*q1v + 3*tv2*tv1*q2v*q1v^2 + 
+        3*tv2*q2v^2*q1v^2 + 3*tv1*q2v^2*q1v^2 + q2v^3*q1v^2 + 3*tv2*q2v*q1v^3 + 
+        2*q2v^2*q1v^3 + q2v*q1v^4 + 4*tv2*tv1*q2v*q1v*qww + 4*tv1*q2v^2*q1v*qww 
+        + q2v^3*q1v*qww + 4*tv2*q2v*q1v^2*qww + 4*q2v*q1v^3*qww + 
+        q2v^2*q1v*qww^2 + q2v*q1v^2*qww^2 + 4*q2v*q1v*qww^3,
+    3*tv2*tv1*q2v^3 + 3*tv1*q2v^4 + 3*tv2*tv1*q2v^2*q1v + 3*tv2*q2v^3*q1v + 
+        3*tv1*q2v^3*q1v + q2v^4*q1v + 3*tv2*q2v^2*q1v^2 + 2*q2v^3*q1v^2 + 
+        q2v^2*q1v^3 + 4*tv2*tv1*q2v^2*qww + 4*tv1*q2v^3*qww + q2v^4*qww + 
+        4*tv2*q2v^2*q1v*qww + 4*q2v^2*q1v^2*qww + q2v^3*qww^2 + q2v^2*q1v*qww^2 
+        + 4*q2v^2*qww^3,
+    tv2^2*q2v^3 + 2*tv2*tv1*q2v^3 + 2*tv2*q2v^4 + 2*tv1*q2v^4 + 2*tv2*q2v^3*q1v 
+        + 3*tv2^2*q2v^2*qww + 2*tv2*tv1*q2v^2*qww + tv2*q2v^3*qww + 
+        2*tv1*q2v^3*qww + 4*q2v^4*qww + 2*tv2*q2v^2*q1v*qww + 2*q2v^2*q1v^2*qww 
+        + q2v^2*q1v*qww^2 + 4*q2v^2*qww^3,
+    3*tv2*tv1*q2v^2*q1v + 3*tv1*q2v^3*q1v + 2*tv2*tv1*q2v*q1v^2 + 
+        3*tv2*q2v^2*q1v^2 + 2*tv1*q2v^2*q1v^2 + q2v^3*q1v^2 + 2*tv2*q2v*q1v^3 + 
+        4*q2v*q1v^4 + 4*q2v^4*qww + q2v^3*q1v*qww + q2v^3*qww^2 + 
+        3*q2v^2*q1v*qww^2 + q2v*q1v^2*qww^2,
+    tv1*q2v^3*q1v + tv2*q2v^2*q1v^2 + 2*q2v^3*q1v^2 + 3*tv2*q2v*q1v^3 + 
+        3*tv1*q2v*q1v^3 + 3*q2v^2*q1v^3 + 2*tv2*q1v^4 + 4*tv1*q1v^4 + 4*q1v^5 + 
+        3*tv1*q2v^2*q1v*qww + tv2*q2v*q1v^2*qww + 4*q2v^2*q1v^2*qww + 
+        4*tv2*q1v^3*qww + 4*q2v*q1v^3*qww + 4*tv2*q1v^2*qww^2 + 
+        4*tv1*q1v^2*qww^2 + 4*q2v*q1v^2*qww^2 + 4*q1v^3*qww^2,
+    3*tv1*q2v^3*q1v + 3*tv2*q2v^2*q1v^2 + 4*tv1*q2v^2*q1v^2 + q2v^3*q1v^2 + 
+        3*tv2*q2v*q1v^3 + tv1*q2v*q1v^3 + 2*q2v^2*q1v^3 + q2v*q1v^4 + 
+        3*tv2*q2v^2*q1v*qww + 2*tv1*q2v^2*q1v*qww + 3*q2v^3*q1v*qww + 
+        2*tv2*q2v*q1v^2*qww + tv1*q2v*q1v^2*qww + 4*q2v^2*q1v^2*qww + 
+        q2v*q1v^3*qww + 4*tv2*q2v*q1v*qww^2 + 4*tv1*q2v*q1v*qww^2 + 
+        4*q2v^2*q1v*qww^2 + 4*q2v*q1v^2*qww^2,
+    2*tv2*tv1*q2v^2*q1v + 3*tv2*tv1*q2v*q1v^2 + tv1*q2v^2*q1v^2 + 
+        4*tv1*q2v*q1v^3 + 2*tv1*q2v^3*qww + q2v^4*qww + tv2*q2v^2*q1v*qww + 
+        3*tv1*q2v^2*q1v*qww + 2*q2v^3*q1v*qww + 4*tv2*q2v*q1v^2*qww + 
+        2*q2v^2*q1v^2*qww + 4*q2v^3*qww^2 + 2*q2v^2*q1v*qww^2 + 
+        4*q2v*q1v^2*qww^2,
+    tv1*q2v^4 + 2*tv2*tv1*q2v^2*q1v + tv2*q2v^3*q1v + tv1*q2v^3*q1v + 
+        2*q2v^4*q1v + 3*tv2*tv1*q2v*q1v^2 + 4*tv2*q2v^2*q1v^2 + 
+        4*tv1*q2v^2*q1v^2 + 4*tv1*q2v*q1v^3 + 3*q2v^2*q1v^3 + tv1*q2v^3*qww + 
+        q2v^4*qww + 2*tv2*q2v^2*q1v*qww + 2*q2v^3*q1v*qww + 3*tv2*q2v*q1v^2*qww 
+        + 4*tv1*q2v*q1v^2*qww + 3*q2v^2*q1v^2*qww + 4*q2v*q1v^3*qww + 
+        4*q2v^3*qww^2 + 2*q2v^2*q1v*qww^2 + 4*q2v*q1v^2*qww^2 ];
+ P23w := iso<Proj2X3w->Proj3X3w | eqslist, [kwww, k1wv, k2wv, kwdv1, kwdv2]>;
+ IP23w := Inverse(P23w);
+ IP23w :=map<Proj3X3w->Proj2X3w | [kwww, k1wv, k2wv, kwdv1, kwdv2]>;
+ BaseScheme(P23w);
+ GCD(eqslist);
+ ICBSw := IrreducibleComponents(BaseScheme(P23w));
+ [<Dimension(V), Degree(V)>: V in ICBSw];
+ [<Points(pt)[1],IsSingular(Proj2X3w!Points(pt)[1])>: pt in ICBSw[5..10]];
+ [<Points(pt)[1],ADEtype(Proj2X3w!Points(pt)[1])>: pt in ICBSw[[5,6,7,8,10]]];
+ [<Points(pt)[1],[<Dimension(V), Degree(V), ArithmeticGenus(V)>: V in IrreducibleComponents(ReducedSubscheme(Pullback(IP23w, Points(pt)[1])))]>: pt in ICBSw[5..10]];
+
+ Image(repmap,X3w,3);
+ PWrev<cwdv, cvdw, cwww, cvvv, cvw, d2, d1, c2, c1> := ProjectiveSpace(Q0, [3, 3, 3, 3, 2, 2, 2, 1, 1]);
  Wpirev := map<WJ->PWrev | [k3*(k3^2 + 2*v3), k1*(k2*k3 + 2*v2), k3^3, k1^3, k1*k3, 
  k2*k4 + 2*v4, k2^2 + k1*k3 + 2*v1, k4, k2]>;
  Jrev := ideal< CoordinateRing(PWrev) | &cat[ DefiningEquations(Image(Wpirev,WJ,d)) : d in  [1..6]] >;

@@ -98,15 +98,20 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  P15<v1, v2, v3, v4, v5, v6, k11, k12, k13, k14, k22, k23, k24, k33, k34, k44> := Ambient(Jac3);
  WJ := WeightedJacobian(Jacobian(C3));
  PW<k1, k2, k3, k4, v1, v2, v3, v4, v5, v6> := Ambient(WJ);
- P5<c11, c12, c22, b1, b2, kvw>:= ProjectiveSpace(Q0,5);
- proj2 := map<WJ->P5 |[(12*k1 - 3*k2 - 2*k4)^2/4, -1/4*((2*k1 - k2 + 2*k3)*(12*k1 - 3*k2 - 2*k4)), (2*k1 - k2 + 2*k3)^2/4, -3*k1^2 - 9*k1*k3 - 2*k2*k3 - 7*k3^2 + k2*k4 - 4*v2 + 2*v4, 
- -k1^2 + k1*k2 + k1*k3 - k2*k3 + k3^2 - 2*v2 + 2*v3, (-2*k1*k2 + 3*k2^2 - 2*k1*k3 - 2*k2*k3)/2]>;
- proj2 := map<WJ->P5 |[36*k1^2 - 18*k1*k2 + (9*k2^2)/4 - 12*k1*k4 + 3*k2*k4 + k4^2, -6*k1^2 + (9*k1*k2)/2 - (3*k2^2)/4 - 6*k1*k3 + (3*k2*k3)/2 + k1*k4 - (k2*k4)/2 + k3*k4, 
- k1^2 - k1*k2 + k2^2/4 + 2*k1*k3 - k2*k3 + k3^2, -3*k1^2 - 9*k1*k3 - 2*k2*k3 - 7*k3^2 + k2*k4 - 4*v2 + 2*v4, -k1^2 + k1*k2 + k1*k3 - k2*k3 + k3^2 - 2*v2 + 2*v3, 
- k2^2/4 - k1*k3]>;
- J := ideal< CoordinateRing(P5) | &cat[ DefiningEquations(Image(proj2,WJ,d)) : d in  [1..2]] >;
+ //P5<c11, c12, c22, b1, b2, kvw>:= ProjectiveSpace(Q0,5);
+ //proj2 := map<WJ->P5 |[36*k1^2 - 18*k1*k2 + (9*k2^2)/4 - 12*k1*k4 + 3*k2*k4 + k4^2, -6*k1^2 + (9*k1*k2)/2 - (3*k2^2)/4 - 6*k1*k3 + (3*k2*k3)/2 + k1*k4 - (k2*k4)/2 + k3*k4,  k1^2 - k1*k2 + k2^2/4 + 2*k1*k3 - k2*k3 + k3^2, -3*k1^2 - 9*k1*k3 - 2*k2*k3 - 7*k3^2 + k2*k4 - 4*v2 + 2*v4, -k1^2 + k1*k2 + k1*k3 - k2*k3 + k3^2 - 2*v2 + 2*v3,  k2^2/4 - k1*k3]>;
+ //J := ideal< CoordinateRing(P5) | &cat[ DefiningEquations(Image(proj2,WJ,d)) : d in  [1..2]] >;
+ //MinimalBasis(J);
+ //K3 := Scheme(P5,MinimalBasis(J));
+
+ PW<c1, c2, d1, d2, cvw, cvvv, cwww, cvdw, cwdv> := ProjectiveSpace(Q0, [1,1,2,2,2,3,3,3,3]);
+ Wpi := map<WJ->PW | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
+ J := ideal< CoordinateRing(PW) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..6]] >;
  MinimalBasis(J);
- K3 := Scheme(P5,MinimalBasis(J));
+ X3 := Scheme(PW,MinimalBasis(J));
+
+
+
  Q0t<t> :=FunctionField(Q0);
  K3t<c11, c12, c22, b1, b2, kvw> := BaseExtend(K3,Q0t);
  P1t<x1,x2> := ProjectiveSpace(Q0t,1);
@@ -132,6 +137,10 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
  P2 := mapG(G.1);
  Inverse(mapE)(P2);
  
+
+
+
+
 
 
  P4<k1,k2,k3,k4,k5>:=ProjectiveSpace(Q0,4);

@@ -161,6 +161,10 @@ load "WeightedJacobian.m";
  [InverseGamma(J3, phi(pt)): pt in pts3WJ];
  [3*InverseGamma(J3, phi(pt)): pt in pts3WJ];
 
+ 
+
+
+
  // What happens to the Hilbert series of ALL negative elements?
  PW2<w1, w2, w3, w4, w5, w6, w11, w12, w13, w14, w15, w16, w21, w22, w23, w24, w25, w26, w31, w32, w33, w34> := ProjectiveSpace(Q0, [2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]);
  projsp := map< WJ -> PW2 | [v1, v2, v3, v4, v5, v6, k1*v1, k1*v2, k1*v3, k1*v4, k1*v5, k1*v6, k2*v1, k2*v2, k2*v3, k2*v4, k2*v5, k2*v6, k3*v1, k3*v2, k3*v3, k3*v4] >;
@@ -477,8 +481,8 @@ c1*c2^2*cwww + 2*d1*d2*cvw + 3*c1*cvw*cvvv + c1*cvw*cwww + 10*c2*d2*cwdv + 2*cvd
  repmap := map<X3w->P5 | [c112*c2v*cw + 4*c112*c1v*cw, dv2, dv1, c2v, c1v, cw^2]>;
  [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw-c2v*cw)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,4))[1]>:n in [6..14]];
  [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw+c2v*cw+3*cw^3)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,4))[1]>:n in [6..14]];
- P5<x, tv2, tv1, q2v, q1v, qww> := ProjectiveSpace(Q0,[5,1,1,1,1,1]);
- eqs := [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw-c2v*cw)*(c1v+c2v+3*cw^2)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,5))[1]>:n in [6..14]];
+ //P5<x, tv2, tv1, q2v, q1v, qww> := ProjectiveSpace(Q0,[5,1,1,1,1,1]);
+ //eqs := [<P.n,DefiningEquations(Image(map<X3w->P5 | [c2v*(c1v*cw-c2v*cw)*(c1v+c2v+3*cw^2)*P.n, dv2, dv1, c2v, c1v, cw^2]>,X3w,5))[1]>:n in [6..14]];
  
  P13<kwww, k1wv, k2wv, kwdv1, kwdv2, k111, k112, k122, k222, kvvv, k1d1, k1d2, kvdw1, kvdw2> := ProjectiveSpace(Q0,13);
  P<cw, c1v, c2v, dv1, dv2, c111, c112, c122, c222, cvvv, c1d1, c1d2, cvdw1, cvdw2, c22dw2> := Ambient(X3w);
@@ -555,3 +559,112 @@ c1*c2^2*cwww + 2*d1*d2*cvw + 3*c1*cvw*cvvv + c1*cvw*cwww + 10*c2*d2*cwdv + 2*cvd
  Jrev := ideal< CoordinateRing(PWrev) | &cat[ DefiningEquations(Image(Wpirev,WJ,d)) : d in  [1..6]] >;
  MinimalBasis(Jrev);
  X3rev := Scheme(PWrev,MinimalBasis(Jrev));
+
+ P1122<cc1, cc2, dd1, dd2> := ProjectiveSpace(Q0,[1,1,2,2]);
+ pi1122 := map<WJ->P1122 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4]>;
+ ideal< CoordinateRing(P1122) | &cat[ DefiningEquations(Image(pi1122,WJ,d)) : d in  [1..3]] >; // This stops working for bigger d
+
+ P11222<c1, c2, d1, d2, cvw> := ProjectiveSpace(Q0,[1,1,2,2,2]);
+ pi11222 := map<WJ->P11222 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3]>;
+ IrreducibleComponents(BaseScheme(pi11222)); //The 4 singular points that get blown-up
+ X11222 := Scheme(P11222,MinimalBasis(ideal< CoordinateRing(P11222) | &cat[ DefiningEquations(Image(pi11222,WJ,d)) : d in  [1..5]] >)); 
+ ICsingX12:=  IrreducibleComponents(ReducedSubscheme(JacobianSubrankScheme(X11222)));
+ [<Dimension(V),ArithmeticGenus(V)>: V in ICsingX12];
+ [<pt,ADEtype(pt)>: pt in SingularPoints(Proj2X3)];
+ IrreducibleComponents(Scheme(X11222,[c1,c2]));
+ proj1122 := map<X11222->P1122 | [c1,c2,d1,d2]>;
+ X1122 := Image(proj1122);
+ IrreducibleComponents(BaseScheme(proj1122));
+ SX := JacobianSubrankScheme(X1122);
+ SXred := ReducedSubscheme(SX);  
+ ICSX := IrreducibleComponents(SXred);
+ ICP:=[IrreducibleComponents(Pullback(proj1122,V)): V in ICSX];
+ [IrreducibleComponents(Intersection(V[1],V[2])): V in ICP[1..3]];
+ [[<Dimension(Intersection(V,W))>: V in &cat ICP]:W in &cat ICP];
+ [[<Dimension(Intersection(V,W)),IrreducibleComponents(Intersection(V,W))>: V in &cat ICP]:W in &cat ICP];
+
+ IrreducibleComponents(ReducedSubscheme(Scheme(X1122,[cc1,cc2])));
+
+
+
+ P12w<cw, cv1, cv2, dv1, dv2> := ProjectiveSpace(Q0,[1,2,2,2,2]);
+ pi12w := map<WJ->P12w | [k3, k1*k2, k1*k4, k3^2 + 2*v3, k3^2 + 2*v6]>;
+ #IrreducibleComponents(BaseScheme(pi12w));
+ X12w := Scheme(P12w,MinimalBasis(ideal< CoordinateRing(P12w) | &cat[ DefiningEquations(Image(pi12w,WJ,d)) : d in  [1..6]] >));
+ ICsingX12w := IrreducibleComponents(Intersection(ReducedSubscheme(JacobianSubrankScheme(X12w)),X12w));
+ [<Dimension(V),ArithmeticGenus(V)>: V in ICsingX12w];
+ [IrreducibleComponents(ReducedSubscheme(Pullback(pi12w,Scheme(X12w, DefiningEquations(V))))): V in ICsingX12w];
+ [<ReducedSubscheme(V),Dimension(V),ArithmeticGenus(V)>: V in IrreducibleComponents(Scheme(WJ,[k3,k1*k2 + k1*k4 + 3*(k3^2 + 2*v6),k3^2 + 2*v3]))];
+ [<pt,ADEtype(pt)>: pt in SingularPoints(Proj2X3w)];
+ IrreducibleComponents(ReducedSubscheme(Scheme(X12w,[cw]))) eq ICsingX12w;
+ [[<Dimension(Intersection(W,V)), ReducedSubscheme(Intersection(W,V))> : V in ICsingX12w[1..3]]: W in ICsingX12w[1..3]];
+ Ppw := <cw, cv1, cv2, dv1, dv2> := ProjectiveSpace(Q0,[1,2,2,2,2]);
+
+p4w := map<WJ->Proj2X3w | [k3^2, k1*k2, k1*k4, k3^2 + 2*v3, k3^2 + 2*v6]>;
+[<IrreducibleComponents(ReducedSubscheme(Pullback(p4w,pt))),ADEtype(pt)>: pt in SingularPoints(Proj2X3w)];
+
+
+P54<c11, c12, c22, b1, b2, kvw, qww, q1v, q2v, tv1, tv2>:=ProductProjectiveSpace(Q0,[5,4]);
+picomb := map<WJ->P54 | [k2^2, k2*k4, k4^2, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k3^2, k1*k2, k1*k4, k3^2 + 2*v3, k3^2 + 2*v6]>;
+// 
+I0 := ideal< CoordinateRing(P54) | MinimalBasis(&cat[ DefiningEquations(Image(picomb,WJ,[0,d])) : d in  [0..3]]) >;
+// I1 := ideal< CoordinateRing(P54) | MinimalBasis(&cat[ DefiningEquations(Image(picomb,WJ,[1,d])) : d in  [0..3]] cat Basis(I0)) >;
+deg2 :=[[i,2-i]: i in [0..2]];
+I2 := ideal< CoordinateRing(P54) | MinimalBasis(&cat[ DefiningEquations(Image(picomb,WJ,d)) : d in deg2]) >;
+deg3 :=[[i,3-i]: i in [0..3]];
+I3 := ideal< CoordinateRing(P54) | MinimalBasis(&cat[ DefiningEquations(Image(picomb,WJ,d)) : d in deg3]) >;
+deg4 :=[[i,4-i]: i in [0..4]];
+I4 := ideal< CoordinateRing(P54) | MinimalBasis(&cat[ DefiningEquations(Image(picomb,WJ,d)) : d in deg4]) >;
+Bt:=MinimalBasis(Basis(I2) cat Basis(I3) cat Basis(I4));
+[#[V: V in Bt |  (Degree(V) eq i)]: i in [1..4]];
+[[#[V: V in Bt |  (Degrees(P54,V) eq [i,j])]: i in [0..2]]:j in [0..3]];
+
+X1w :=Scheme(P54,Bt);
+proj1 := map<X1w->Proj2X3 | [c11, c12, c22, b1, b2, kvw]>;
+[<Dimension(Pullback(proj1,pt)),ADEtype(pt)>: pt in SingularPoints(Proj2X3)];
+pb1 := [Pullback(proj1,pt): pt in SingularPoints(Proj2X3)];
+IrreducibleComponents(BaseScheme(proj1));
+projw := map<X1w->Proj2X3w | [qww, q1v, q2v, tv1, tv2]>;
+[<Dimension(Pullback(projw,pt)),ADEtype(pt)>: pt in SingularPoints(Proj2X3w)];
+IrreducibleComponents(BaseScheme(projw));
+pbw := [Pullback(projw,pt): pt in SingularPoints(Proj2X3w)];
+[[Dimension(Intersection(V,W)): V in pb1]: W in pbw];
+listpts:=&cat[&cat[IrreducibleComponents(Intersection(V,W)): V in pb1]: W in pbw];
+ptscoord :=[[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], [4, 4, 4, 4, -1, 0, 0, 4, 4, 0, -1], [1, 0, 0, -1, 0, 0, 0, 3, 0, 0, -1], [4, 0, 0, -1, 0, 0, 0, 2, 0, 1, -1], [0, 0, 0, 3, 1, -1, 0, 2, 3, 1, -1], [4, 1, 4, 0, 0, -1, 0, 2, 3, 1, -1], [1, 1, 1, 4, -1, 0, 0, 2, 2, 1, -1], [0, 0, 0, 4, 1, -1, 4, 0, 0, 1, -1], [4, 1, 4, 0, 0, -1, 4, 0, 0, 1, -1], [0, 0, 0, 1, 4, -1, 1, 0, 0, 1, -1], [4, 1, 4, 0, 0, -1, 1, 0, 0, 1, -1], [0, 0, 0, 2, 4, -1, 0, 1, -1, 0, 0], [4, 1, 4, 0, 0, -1, 0, 1, -1, 0, 0]];
+pts := [X1w!pt: pt in ptscoord];
+[<pt,IsSingular(pt)> : pt in pts];
+singpts:=[pt: pt in pts | IsSingular(pt)];
+[ADEtype(pt): pt in singpts];
+IrreducibleComponents(BaseScheme(projw));
+
+
+P544<c11, c12, c22, b1, b2, kvw, qww, q1v, q2v, tv1, tv2, qvv, q1w, q2w, tw1, tw2> := ProductProjectiveSpace(Q0,[5,4,4]);
+pitot:= map<WJ->P544 | [k2^2, k2*k4, k4^2, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k3^2, k1*k2, k1*k4, k3^2 + 2*v3, k3^2 + 2*v6, k1^2, k2*k3, k3*k4, k2*k3 + 2*v2, k3*k4 + 2*v5]>;
+deg2 :=&cat[[[2-i-j,i,j]: i in [0..2-j]]: j in [0..2]];
+I2 := ideal< CoordinateRing(P544) | MinimalBasis(&cat[ DefiningEquations(Image(pitot,WJ,d)) : d in deg2]) >;
+deg3 :=&cat[[[3-i-j,i,j]: i in [0..3-j]]: j in [0..3]];
+I3 := ideal< CoordinateRing(P544) | MinimalBasis(&cat[ DefiningEquations(Image(pitot,WJ,d)) : d in deg3]) >;
+Bt := MinimalBasis(Basis(I2) cat Basis(I3));
+[[[#[V: V in Bt |  (Degrees(P544,V) eq [n-i-j,i,j])]: i in [0..n-j]]:j in [0..n]]: n in [1..3]];
+deg4 :=&cat[[[4-i-j,i,j]: i in [0..4-j]]: j in [0..4]];
+// I4 := ideal< CoordinateRing(P544) | MinimalBasis(&cat[ DefiningEquations(Image(pitot,WJ,d)) : d in deg4]) >; //We can see that basically all the relations are in degree less than 4
+// Bt4 := MinimalBasis(Basis(I2) cat Basis(I3) cat Basis(I4));
+// Bt eq Bt4;
+Y3 := Scheme(P544,Bt);
+proj1 := map<Y3->Proj2X3 | [c11, c12, c22, b1, b2, kvw]>;
+[<Dimension(Pullback(proj1,pt)),#IrreducibleComponents(Pullback(proj1,pt)), ADEtype(pt)>: pt in SingularPoints(Proj2X3)];
+pb1 := [Pullback(proj1,pt): pt in SingularPoints(Proj2X3)];
+projw := map<Y3->Proj2X3w | [qww, q1v, q2v, tv1, tv2]>;
+[<Dimension(Pullback(projw,pt)),#IrreducibleComponents(Pullback(projw,pt)),ADEtype(pt)>: pt in SingularPoints(Proj2X3w)];
+pbw := [Pullback(projw,pt): pt in SingularPoints(Proj2X3w)];
+[Dimension(BaseScheme(proj1)),Dimension(BaseScheme(projw)),Dimension(BaseScheme(projv))];
+projv := map<Y3->Proj2X3v | [qvv, q1w, q2w, tw1, tw2]>;
+[<Dimension(Pullback(projv,pt)),#IrreducibleComponents(Pullback(projv,pt)),ADEtype(pt)>: pt in SingularPoints(Proj2X3v)];
+pbv := [Pullback(projv,pt): pt in SingularPoints(Proj2X3v)];
+listpts1w:=&cat[&cat[IrreducibleComponents(Intersection(V,W)): V in pb1]: W in pbw];
+listptstot:=&cat[&cat[&cat[IrreducibleComponents(Intersection(Intersection(V,W),U)): V in pbv]: W in pbw]: U in pb1];
+listptstot:=&cat[&cat[IrreducibleComponents(Intersection(V,W)): V in pbv]: W in listpts1w];
+ptscoord := [[0, 0, 0, 4, 1, -1, 4, 0, 0, 1, -1, 0, 4, 1, 1, -1], [0, 0, 0, 3, 1, -1, 0, 2, 3, 1, -1, 3, 0, 0, -1, 0], [0, 0, 0, 2, 4, -1, 0, 1, -1, 0, 0, 3, 0, 0, 0, -1], [0, 0, 0, 1, 4, -1, 1, 0, 0, 1, -1, 0, 1, 4, 1, -1], [4, 1, 4, 0, 0, -1, 0, 2, 3, 1, -1, 3, 0, 0, -1, 0], [4, 1, 4, 0, 0, -1, 4, 0, 0, 1, -1, 0, 4, 1, 1, -1], [4, 1, 4, 0, 0, -1, 1, 0, 0, 1, -1, 0, 1, 4, 1, -1], [4, 1, 4, 0, 0, -1, 0, 1, -1, 0, 0, 3, 0, 0, 0, -1], [4, 4, 4, 4, -1, 0, 0, 4, 4, 0, -1, 0, 4, 4, 4, -1], [1, 1, 1, 4, -1, 0, 0, 2, 2, 1, -1, 0, 1, 1, 4, -1], [4, 0, 0, -1, 0, 0, 0, 2, 0, 1, -1, 0, 4, 0, -1, 0], [1, 0, 0, -1, 0, 0, 0, 3, 0, 0, -1, 0, 1, 0, -1, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]];
+pts := [Y3!pt: pt in ptscoord];
+[<pt,IsSingular(pt)> : pt in pts];
+[IrreducibleComponents(proj1(W)): W in pbw];

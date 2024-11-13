@@ -43,6 +43,7 @@ load "WeightedJacobian.m";
  J := ideal< CoordinateRing(PW) | &cat[ DefiningEquations(Image(Wpi,WJ,d)) : d in  [1..6]] >;
  MinimalBasis(J);
  X3 := Scheme(PW,MinimalBasis(J));
+ [#[eqs: eqs in DefiningEquations(X3) |  (Degree(eqs) eq i)]: i in [1..6]];
  Wpi := map<WJ->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;
  //cd:=Scheme(WJ,k1*(k3*k4 + 2*v5));
  //Wpirest := map<cd->X3 | [k2, k4, k2^2 + k1*k3 + 2*v1, k1*k3 + k2*k4 + 2*v4, k1*k3, k1^3, k3^3, k1*(k2*k3 + 2*v2), k3*(k3^2 + 2*v3)]>;

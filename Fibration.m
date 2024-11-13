@@ -15,5 +15,8 @@ E := EllipticCurve([(-3*t^2*(1 - 2*r - 2*r^3 + 8*r^4 + 4*r^5 - 6*r^6 - 8*r^7 - r
 A2:= Lattice("A",2);
 H := LatticeWithGram(Matrix([[0,1],[1,0]]): CheckPositive := false);
 Rl := DirectSum(DirectSum(DirectSum(Lattice("A",5),Lattice("A",5)),Lattice("A",2)),Lattice("D",4));
-L := DirectSum(H,Rl);
-Discriminant(L);
+L := DirectSum(H,(-1)*Rl:  CheckPositive := false);
+
+Determinant(Rl);
+Determinant(L);
+REl:=DirectSum(DirectSum(Lattice("A",2),Lattice("D",7)),Lattice("E",8));

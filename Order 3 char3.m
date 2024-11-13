@@ -217,3 +217,74 @@ X := Scheme(A6,[27*y1^2 - 81*y2 - 18*y2^2 - y2^3 + 54*y1*y3 + 27*y3^2, 3 + 3*x3 
 
 
 
+function InvariantEmbedding(J)
+ C :=  Curve(J);
+ k := BaseRing(C);
+ f,g := HyperellipticPolynomials(C);
+ f0 := Coefficient(f,0);
+ f1 := Coefficient(f,1);
+ f2 := Coefficient(f,2);
+ f3 := Coefficient(f,3);
+ f4 := Coefficient(f,4);  
+ f5 := Coefficient(f,5);
+ f6 := Coefficient(f,6);
+ g0 := Coefficient(g,0);
+ g1 := Coefficient(g,1);
+ g2 := Coefficient(g,2);
+ g3 := Coefficient(g,3);
+ if ([10*f0 + 5*f1 + 2*f2 + f3, -15*f0 - 5*f1 - f2 + f4, 6*f0 + f1 + f5, -f0 + f6, 3*g0 + g1 + g2, -g0 + g3] ne [0,0,0,0,0,0]) then 
+ error "This function only works for Jacobians of curves of the form y^2+(g0 x^3 - 3 g0 x^2 - g1 x^2 + g1 x + g0)y =f0 x^6 - 6 f0 x^5 - f1 x^5 + 15 f0 x^4 + 5 f1 x^4 + f2 x^4 - 10 f0 x^3 - 5 f1 x^3 - 2 f2 x^3 + f2 x^2 + f1 x + f0. Sorry :()";
+ end if;
+ WJ<k1, k2, k3, k4, v1, v2, v3, v4, v5, v6> := WeightedJacobian(J);
+ WP<c1, c2, cvw, d1, d2, e1, e2, e3, e4> := ProjectiveSpace(k,[1,1,2,2,2,3,3,3,3]);
+ phi := map < WJ -> WP | [-6*f0*k1 - f1*k1 + 2*f0*k2 + f1*k3 + k4, 2*k1 - k2 + 2*k3, -k1^2 + k1*k2 - 3*k1*k3 + k2*k3 - k3^2, f1*k1^2 - 10*f0*k1*k3 - 5*f1*k1*k3 - 2*f2*k1*k3 - 6*f0*k3^2 - f1*k3^2 +   k2*k4 + 2*v4, -(g0*k1^2) + g0*k1*k2 + 3*g0*k1*k3 + 2*g1*k1*k3 - g0*k2*k3 + g0*k3^2 - 2*v2 + 2*v3, (k1 - k2)*(k1 - k3)*(k2 - k3),  k1^3 - 2*k1^2*k2 + k1*k2^2 + 4*k1^2*k3 - 3*k1*k2*k3 + 3*k1*k3^2 - k2*k3^2 + k3^3, -(g0^2*k1^3) + 2*g0*g1*k1^3 - f1*k1^2*k2 - 3*g0^2*k1^2*k2 - 2*g0*g1*k1^2*k2 +   2*f1*k1^2*k3 + 5*g0^2*k1^2*k3 - 3*g0*g1*k1^2*k3 - 2*g1^2*k1^2*k3 + 10*f0*k1*k2*k3 + 5*f1*k1*k2*k3 + 2*f2*k1*k2*k3 + 3*g0^2*k1*k2*k3 + g0*g1*k1*k2*k3 - g0^2*k2^2*k3 -   20*f0*k1*k3^2 - 10*f1*k1*k3^2 - 4*f2*k1*k3^2 - 4*g0^2*k1*k3^2 - g0*g1*k1*k3^2 + 6*f0*k2*k3^2 + f1*k2*k3^2 - 12*f0*k3^3 - 2*f1*k3^3 + g0^2*k3^3 - k2^2*k4 + 2*k2*k3*k4 +   2*g0*k1*v1 - 2*g0*k3*v1 - 2*g0*k1*v2 + 2*g1*k1*v2 + 2*g0*k3*v2 - 2*g1*k1*v3 - 2*g0*k2*v3 + 2*g0*k3*v3 - 2*k2*v4 + 4*k3*v4,  -2*f1*k1^3 - g0^2*k1^3 + 2*g0*g1*k1^3 + 2*f1*k1^2*k2 - 3*g0^2*k1^2*k2 - 5*g0*g1*k1^2*k2 + 8*g0^2*k1*k2^2 + 3*g0*g1*k1*k2^2 - 2*g0^2*k2^3 + 20*f0*k1^2*k3 + 10*f1*k1^2*k3 +   4*f2*k1^2*k3 + 3*g0^2*k1^2*k3 - 3*g0*g1*k1^2*k3 - 2*g1^2*k1^2*k3 - 20*f0*k1*k2*k3 - 10*f1*k1*k2*k3 - 4*f2*k1*k2*k3 - 11*g0^2*k1*k2*k3 + 2*g0*g1*k1*k2*k3 +   2*g1^2*k1*k2*k3 + 3*g0^2*k2^2*k3 - g0*g1*k2^2*k3 + 12*f0*k1*k3^2 + 2*f1*k1*k3^2 + 2*g0^2*k1*k3^2 + g0*g1*k1*k3^2 - 12*f0*k2*k3^2 - 2*f1*k2*k3^2 + g0*g1*k2*k3^2 +   g0^2*k3^3 - 2*k1*k2*k4 + 2*k2^2*k4 + 2*g0*k1*v1 - 4*g0*k2*v1 + 2*g0*k3*v1 - 2*g0*k1*v2 + 2*g1*k1*v2 + 4*g0*k2*v2 - 2*g1*k2*v2 - 2*g0*k3*v2 - 4*g0*k1*v3 - 2*g1*k1*v3 +   2*g0*k2*v3 + 2*g1*k2*v3 + 2*g0*k3*v3 - 4*k1*v4 + 4*k2*v4]>;
+ I := ideal< CoordinateRing(WP) | &cat[ DefiningEquations(Image(phi,WJ,d)) : d in  [3..6]] >;
+ X3 := Scheme(WP,MinimalBasis(I));
+ return X3;
+end function;
+
+function Deg2InvariantEmbedding()
+
+end function
+
+function Deg3InvariantEmbedding()
+
+end function
+
+Q0 := Rationals();
+K<w> := 
+
+function C3Curve(field,data)
+ if ([data[4],4*data[1]+data[4]^2] eq [0,0]) then 
+ error "This is not valid data";
+ end if;
+P<f0,f1,f2,g0,g1>:= PolynomialRing(field,5);
+PolP<x>:= PolynomialRing(P,1);
+C := HyperellipticCurve(Polynomial(Evaluate([f0, f1, f2, -10*f0 - 5*f1 - 2*f2, 15*f0 + 5*f1 + f2, -6*f0 - f1, f0],data)),Polynomial(Evaluate([g0, g1, -3*g0 - g1, g0],data)));
+return C;
+end function;
+
+C := C3Curve(GF(7),[1,0,-1,1,0]);
+J:= Jacobian(C);
+X3 := InvariantEmbedding(J);
+[#[eqs: eqs in DefiningEquations(X3) |  (Degree(eqs) eq i)]: i in [1..6]];
+
+K<r> := GF(9);
+C := C3Curve(GF(9),[1,0,-1,1,0]);
+J:= Jacobian(C);
+X3 := InvariantEmbedding(J);
+[#[eqs: eqs in DefiningEquations(X3) |  (Degree(eqs) eq i)]: i in [1..6]]; // We observe that there are more relations than in characteristic zero
+WP<c1, c2, cvw, d1, d2, e1, e2, e3, e4> := Ambient(X3);
+P5<k11, k12, k22, kvw, t1, t2> := ProjectiveSpace(K,5);
+proj2 := map< X3->P5 | [c1^2, c1*c2, c2^2, cvw, d1, d2]>;
+X2 := Scheme(P5,MinimalBasis(Image(proj2,X3,2)));
+proj2 := map< X3->X2 | [c1^2, c1*c2, c2^2, cvw, d1, d2]>;
+sptsX2 := SingularPoints(X2);
+BaseScheme(proj2);
+[Dimension(Pullback(proj2,pt)): pt in sptsX2];
+ HSX3 := HilbertSeries(Ideal(DefiningPolynomials(X3)));
+ Ser<t> := PowerSeriesRing(Rationals(),8);
+ Ser!HSX3;
+lines := IrreducibleComponents(Scheme(X2,[k11,k12,t2]));
+[Pullback(proj2,l): l in lines];
+v := [1,0,-1,1,0];

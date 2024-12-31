@@ -12,8 +12,9 @@ E := EllipticCurve([(-3*t^2*(1 - 2*r - 2*r^3 + 8*r^4 + 4*r^5 - 6*r^6 - 8*r^7 - r
     24*r^2*t^4 - 126*r^3*t^4 - 75*r^4*t^4 + 72*r^5*t^4 + 204*r^6*t^4 + 144*r^7*t^4 + 30*r^8*t^4 - 12*t^5 - 12*r*t^5 + 60*r^2*t^5 + 48*r^3*t^5 - 12*r^4*t^5 - 96*r^5*t^5 - 
     72*r^6*t^5 - 12*r^7*t^5 + 11*t^6 - 14*r*t^6 - 14*r^2*t^6 - 2*r^3*t^6 + 19*r^4*t^6 + 16*r^5*t^6 + 2*r^6*t^6))/((-1 + r)^9*r^3*(1 + r)^6)]);
 
-A2:= Lattice("A",2);
+A2 := Lattice("A",2);
 H := LatticeWithGram(Matrix([[0,1],[1,0]]): CheckPositive := false);
+
 Rl := DirectSum(DirectSum(DirectSum(Lattice("A",5),Lattice("A",5)),Lattice("A",2)),Lattice("D",4));
 L := DirectSum(H,(-1)*Rl:  CheckPositive := false);
 

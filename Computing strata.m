@@ -1,8 +1,28 @@
+function C3Curve(field,data)
+ if ([data[4],4*data[1]+data[4]^2] eq [0,0]) then 
+ error "This is not valid data";
+ end if;
+P<f0,f1,f2,g0,g1>:= PolynomialRing(field,5);
+PolP<x>:= PolynomialRing(P,1);
+C := HyperellipticCurve(Polynomial(Evaluate([f0, f1, f2, -10*f0 - 5*f1 - 2*f2, 15*f0 + 5*f1 + f2, -6*f0 - f1, f0],data)),Polynomial(Evaluate([g0, g1, -3*g0 - g1, g0],data)));
+return C;
+end function;
+
 K<f0,f1,f2,g0,g1>:= PolynomialRing(Rationals(),5);
 GenC := C3Curve(K,[f0,f1,f2,g0,g1]);
 K<f0,f1,f2,g0,g1>:= BaseRing(GenC);
 II := [Numerator(i): i in IgusaInvariants(GenC)];
 K!II;
+
+Q0 := Rationals();
+P := ProjectiveSpace(Q0,[2,2,1]);
+K<f0,f1,g0>:= CoordinateRing(P);
+GenC := C3Curve(K,[f0,f1,0,g0,0]);
+II := [Numerator(i): i in IgusaInvariants(GenC)];
+IP<I2,I4,I6,I10> := ProjectiveSpace(Q0,[1,2,3,5]);
+phi := map<P->IP | II[[1,2,3,5]]>;
+J := ideal< CoordinateRing(IP) | &cat[ DefiningEquations(Image(phi,P,d)) : d in  [1..10]] >;
+MinimalBasis(J);
 
 Q0 := Rationals();
 P := ProjectiveSpace(Q0,3);

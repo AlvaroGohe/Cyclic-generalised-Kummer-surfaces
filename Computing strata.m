@@ -226,3 +226,12 @@ rb := [r[1]: r in Roots(x^5 + z^2*x^3 + (z + 1)*x^2 + (z^3 + z^2 + z + 1)*x + z^
 Pol<x> := PolynomialRing(GF(3));
 C := HyperellipticCurve(x*(x^2-1)*(x^2+1));
 HasseWittInvariant(C);
+
+
+K<a1,a2,a3,a4,a5,a6> := PolynomialRing(Rationals(),6);
+PolK<x> := PolynomialRing(K);
+C := HyperellipticCurve((x-a1)*(x-a2)*(x-a3)*(x-a4)*(x-a5)*(x-a6));
+K<a1,a2,a3,a4,a5,a6> := BaseRing(C);
+II := IgusaInvariants(C);
+// Write the equations of II to a text file called IgusaInvariants.txt
+Write("IgusaInvariants.txt", Sprint(II));

@@ -438,45 +438,6 @@ AS<[t]> := AmbientSpace(B2);
 
 
 
-K<f0,f1,f2,g0,g1>:= PolynomialRing(Rationals(),5);
-GenC := C3Curve(K,[f0,f1,f2,g0,g1]);
-K<f0,f1,f2,g0,g1>:= BaseRing(GenC);
-II := IgusaInvariants(GenC);
-Q0 := Rationals();
-P<g0,g1,f0,f1,f2>:=ProjectiveSpace(Q0,[1,1,2,2,2]);
-IP<I2,I4,I6,I8,I10> := ProjectiveSpace(Q0,[1,2,3,4,5]);
-eqsII := [Numerator(i): i in IgusaInvariants(C)];
-phi := map<P->IP | eqsII>;
-J := ideal< CoordinateRing(IP) | &cat[ DefiningEquations(Image(phi,P,d)) : d in  [1..6]] >;
-D6 := Scheme(IP,MinimalBasis(J));
-Ipproj<J2,J4,J6> := ProjectiveSpace(Q0,[1,2,3]);
-proj := map<D6 -> Ipproj|[I2,I4,I6]>;
-D6c := Image(proj);
-
-Q0 := GF(5);
-P<g0,g1,f0,f1,f2>:=ProjectiveSpace(Q0,[1,1,2,2,2]);
-IP<I2,I4,I6,I8,I10> := ProjectiveSpace(Q0,[1,2,3,4,5]);
-phi := map<P->IP | eqsII>;
-J := ideal< CoordinateRing(IP) | &cat[ DefiningEquations(Image(phi,P,d)) : d in  [1..6]] >;
-D6 := Scheme(IP,MinimalBasis(J));
-IrreducibleComponents(ReducedSubscheme(JacobianSubrankScheme(D6)));
-
-
-
-Q0 := GF(2);
-IP<I2,I4,I6,I8,I10> := ProjectiveSpace(Q0,[1,2,3,4,5]);
-S := Scheme(IP,[I4^2 + I2*I6, I4*I6 + I10, I2^3*I6 + I4^3 + I2^2*I8 + I6^2]);
-IsSingular(S);
-
-Q3<t> := PolynomialRing(GF(3));
-PolQ3<x> := PolynomialRing(Q3);
-C := HyperellipticCurve((x^3-x)*(x^3-x-t));
-Q3<t> := BaseRing(C);
-IgusaInvariants(C);
-
-[Factorisation(pol): pol in II];
-  
-
 K := GF(7);
 C := C3Curve(K,[1,0,-1,1,0]);
 J:= Jacobian(C);

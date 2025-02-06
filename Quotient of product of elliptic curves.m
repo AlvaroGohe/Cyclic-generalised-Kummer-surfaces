@@ -157,7 +157,7 @@ phi6 := map<ec->PW6| [-2*dec[1] + a1*dec[2], -(a3*dec[1]) + a1*a3*dec[2] - a1*de
 // ram6 := DefiningEquations(Image(phi6))[2]; This takes a long time to evaluate
 
 
-function KummerEll2flawed(field, vec1, vec2)
+function flawed(field, vec1, vec2)
 a1 := vec1[1];
 a2 := vec1[2];
 a3 := vec1[3];
@@ -178,7 +178,7 @@ return K2, phi;
 end function;
 
 
-function KummerEll2(field, vec1, vec2)
+function (field, vec1, vec2)
 a1 := vec1[1];
 a2 := vec1[2];
 a3 := vec1[3];
@@ -202,6 +202,35 @@ K2 := Scheme(X,MinimalBasis(Image(phi)));
 phi := map<E1xE2->K2 | [X1, Z1, X2, Z2, (a1*X1*Y1 + Y1^2 + a3*Y1*Z1), 2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(b1*X2+b3*Z2)*Y1, (b1*X2*Y2 + Y2^2 + b3*Y2*Z2)]>;
 return K2, phi;
 end function;
+
+function KummerEll2(field, vec1, vec2)
+a1 := vec1[1];
+a2 := vec1[2];
+a3 := vec1[3];
+a4 := vec1[4];
+a6 := vec1[5];
+b1 := vec2[1];
+b2 := vec2[2];
+b3 := vec2[3];
+b4 := vec2[4];
+b6 := vec2[5];
+P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(field, [2,2]);
+E1xE2 := Scheme(P22, [-X1^3 - a2*X1^2*Z1 + a1*X1*Y1*Z1 + Y1^2*Z1 - a4*X1*Z1^2 + a3*Y1*Z1^2 - a6*Z1^3, -X2^3 - b2*X2^2*Z2 + b1*X2*Y2*Z2 + Y2^2*Z2 - b4*X2*Z2^2 + b3*Y2*Z2^2 - b6*Z2^3]);
+sE12<x1x2, x1y2, x1z2, y1x2, y1y2, y1z2, z1x2, z1y2, z1z2>, tau := SegreEmbedding(E1xE2);
+wp<X1X2, X1Z2, Y1Y2, Z1X2, Z1Z2, Y1XX, Y1XZ, Y1ZZ, Y2XX, Y2XZ, Y2ZZ> := ProjectiveSpace(field, [1,1,1,1,1,2,2,2,2,2,2]);
+phi := map<sE12->wp | [x1x2, x1z2, 2*y1y2+(a1*x1y2+a3*z1y2)+(b1*y1x2+b3*y1z2), z1x2, z1z2, (a1*x1x2*y1x2 + (y1x2)^2 + a3*y1x2*z1x2), (a1*x1z2*y1x2 + (y1x2)*(y1z2) + a3*y1z2*z1x2), (a1*x1z2*y1z2 + (y1z2)*(y1z2) + a3*y1z2*z1z2),(b1*x1x2*x1y2 + (x1y2)^2 + b3*x1y2*x1z2), (b1*z1x2*x1y2 + (x1y2)*(z1y2) + b3*z1y2*x1z2), (b1*z1x2*z1y2 + (z1y2)*(z1y2) + b3*z1y2*z1z2)]>;
+return phi;
+end function;
+
+K<a1,a2,a3,a4,a6,b1,b2,b3,b4,b6> := FunctionField(Rationals(),10);
+E1 := EllipticCurve([a1,a2,a3,a4,a6]);
+E2 := EllipticCurve([b1,b2,b3,b4,b6]);
+vec1 := [a1,a2,a3,a4,a6];
+vec2 := [b1,b2,b3,b4,b6];
+E1xE2, tau := (K,vec1,vec2);
+P<X1,Y1,Z1,X2,Y2,Z2> := Ambient(E1xE2);
+tau(Scheme(E1xE2,(a1*X1*Y1 + Y1^2 + a3*Y1*Z1)));
+
 
 function KummerEll3(field, vec)
 a1 := vec[1];
@@ -313,3 +342,50 @@ B := [];
 Zwts := [[1,1,0,0,2,1,0],[0,0,1,1,0,1,2]];
 Qwts := [];
 C := CoxRing(R,B,Zwts,Qwts);
+
+
+K<a1,a2,a3,a4,a6> := FunctionField(Rationals(),5);
+E<x,y,z> := EllipticCurve([a1,a2,a3,a4,a6]);
+P := E![0,1,0];
+DP := Divisor(P);
+phi := DivisorMap(D);
+Image(phi);
+X := Scheme(E, [y]);
+D := Divisor(E,X);
+phi := DivisorMap(D);
+P<u, v, w> := Codomain(phi);
+Ealt := Image(phi);
+phi := map<E->Ealt | DefiningEquations(phi)>;
+inv := map<E->E | [x, -y - a1*x - a3*z, z]>;
+IsInvertible(phi);
+phiinv :=Inverse(phi);
+invalt := Normalisation(Expand(phiinv*inv*phi));
+D2 := 2*DP;
+phi2 := DivisorMap(D2);
+C<x0,x1> := Curve(ProjectiveSpace(K,1));
+phi2 := map<E->C | DefiningEquations(phi2)>;
+RamificationDivisor(phi2);
+
+K<l> := FunctionField(Rationals());
+P2<x,y,z> := ProjectiveSpace(K,2);
+C := Curve(P2,[x^3+y^3+z^3-l*x*y*z]);
+E := EllipticCurve(C);
+JInvariant(E);
+
+E := EllipticCurve([1, -1, 1, 0, 0]);
+D := Divisor(E![0,0,1]);
+phi := DivisorMap(3*D);
+
+
+P1
+
+field := GF(7);
+R<x1,z1,x2,z2,w> := PolynomialRing(field,5);
+B := [ideal< R | x1, z1>, ideal< R | x2, z2>];
+Zwts := [[1,1,0,0,2],[0,0,1,1,2]];
+Qwts := [];
+C := CoxRing(R,B,Zwts,Qwts);
+X := ToricVariety(C);
+S := Scheme(X, w^2-x1*z1*(x1-z1)*(x1+z1)*x2*z2*(x2-z2)*(x2+z2));
+IrreducibleComponents(JacobianSubrankScheme(S));
+

@@ -178,31 +178,6 @@ return K2, phi;
 end function;
 
 
-function (field, vec1, vec2)
-a1 := vec1[1];
-a2 := vec1[2];
-a3 := vec1[3];
-a4 := vec1[4];
-a6 := vec1[5];
-b1 := vec2[1];
-b2 := vec2[2];
-b3 := vec2[3];
-b4 := vec2[4];
-b6 := vec2[5];
-P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(field, [2,2]);
-E1xE2 := Scheme(P22, [-X1^3 - a2*X1^2*Z1 + a1*X1*Y1*Z1 + Y1^2*Z1 - a4*X1*Z1^2 + a3*Y1*Z1^2 - a6*Z1^3, -X2^3 - b2*X2^2*Z2 + b1*X2*Y2*Z2 + Y2^2*Z2 - b4*X2*Z2^2 + b3*Y2*Z2^2 - b6*Z2^3]);
-R<x1,z1,x2,z2,w11,w12,w22> := PolynomialRing(field,7);
-B := [ideal< R | x1, z1, w11, w12>, ideal< R | x2, z2, w12, w22>];
-Zwts := [[1,1,0,0,2,1,0],[0,0,1,1,0,1,2]];
-Qwts := [];
-C := CoxRing(R,B,Zwts,Qwts);
-X := ToricVariety(C);
-phi := map<E1xE2->X | [X1, Z1, X2, Z2, (a1*X1*Y1 + Y1^2 + a3*Y1*Z1), 2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(b1*X2+b3*Z2)*Y1, (b1*X2*Y2 + Y2^2 + b3*Y2*Z2)]>;
-K2 := Scheme(X,MinimalBasis(Image(phi)));
-phi := map<E1xE2->K2 | [X1, Z1, X2, Z2, (a1*X1*Y1 + Y1^2 + a3*Y1*Z1), 2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(b1*X2+b3*Z2)*Y1, (b1*X2*Y2 + Y2^2 + b3*Y2*Z2)]>;
-return K2, phi;
-end function;
-
 function KummerEll2(field, vec1, vec2)
 a1 := vec1[1];
 a2 := vec1[2];
@@ -214,23 +189,17 @@ b2 := vec2[2];
 b3 := vec2[3];
 b4 := vec2[4];
 b6 := vec2[5];
-P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(field, [2,2]);
+P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(K, [2,2]);
 E1xE2 := Scheme(P22, [-X1^3 - a2*X1^2*Z1 + a1*X1*Y1*Z1 + Y1^2*Z1 - a4*X1*Z1^2 + a3*Y1*Z1^2 - a6*Z1^3, -X2^3 - b2*X2^2*Z2 + b1*X2*Y2*Z2 + Y2^2*Z2 - b4*X2*Z2^2 + b3*Y2*Z2^2 - b6*Z2^3]);
-sE12<x1x2, x1y2, x1z2, y1x2, y1y2, y1z2, z1x2, z1y2, z1z2>, tau := SegreEmbedding(E1xE2);
-wp<X1X2, X1Z2, Y1Y2, Z1X2, Z1Z2, Y1XX, Y1XZ, Y1ZZ, Y2XX, Y2XZ, Y2ZZ> := ProjectiveSpace(field, [1,1,1,1,1,2,2,2,2,2,2]);
-phi := map<sE12->wp | [x1x2, x1z2, 2*y1y2+(a1*x1y2+a3*z1y2)+(b1*y1x2+b3*y1z2), z1x2, z1z2, (a1*x1x2*y1x2 + (y1x2)^2 + a3*y1x2*z1x2), (a1*x1z2*y1x2 + (y1x2)*(y1z2) + a3*y1z2*z1x2), (a1*x1z2*y1z2 + (y1z2)*(y1z2) + a3*y1z2*z1z2),(b1*x1x2*x1y2 + (x1y2)^2 + b3*x1y2*x1z2), (b1*z1x2*x1y2 + (x1y2)*(z1y2) + b3*z1y2*x1z2), (b1*z1x2*z1y2 + (z1y2)*(z1y2) + b3*z1y2*z1z2)]>;
-return phi;
+Pw<x1x2, x1z2, z1x2, z1z2, w> := ProjectiveSpace(K,[1,1,1,1,2]); 
+phi := map<E1xE2->Pw | [X1*X2, X1*Z2, Z1*X2, Z1*Z2, (2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(b1*X2+b3*Z2)*Y1)*Z1*Z2]>;
+S := Image(phi);
+return S;
 end function;
 
-K<a1,a2,a3,a4,a6,b1,b2,b3,b4,b6> := FunctionField(Rationals(),10);
-E1 := EllipticCurve([a1,a2,a3,a4,a6]);
-E2 := EllipticCurve([b1,b2,b3,b4,b6]);
-vec1 := [a1,a2,a3,a4,a6];
-vec2 := [b1,b2,b3,b4,b6];
-E1xE2, tau := (K,vec1,vec2);
-P<X1,Y1,Z1,X2,Y2,Z2> := Ambient(E1xE2);
-tau(Scheme(E1xE2,(a1*X1*Y1 + Y1^2 + a3*Y1*Z1)));
-
+function KummerEll2(field, vec)
+return KummerEll2(field, vec, vec);
+end function;
 
 function KummerEll3(field, vec)
 a1 := vec[1];
@@ -239,9 +208,11 @@ a3 := vec[3];
 a4 := vec[4];
 a6 := vec[5];
 PW<x,y,z,w> := ProjectiveSpace(field,[1,1,1,3]);
-K3 := Scheme(PW,w^2 - a6*x^6 + a1*a3^2*x^5*y + 3*a1*a6*x^5*y + a2*a3^2*x^4*y^2 +  2*a1*a3*a4*x^4*y^2 - 3*a1^2*a6*x^4*y^2 + 3*a2*a6*x^4*y^2 + a3^3*x^3*y^3 +  2*a2*a3*a4*x^3*y^3 + a1*a4^2*x^3*y^3 + a1^3*a6*x^3*y^3 - 6*a1*a2*a6*x^3*y^3 +  5*a3*a6*x^3*y^3 + 3*a3^2*a4*x^2*y^4 + a2*a4^2*x^2*y^4 +  3*a1^2*a2*a6*x^2*y^4 - 3*a2^2*a6*x^2*y^4 - 4*a1*a3*a6*x^2*y^4 +  5*a4*a6*x^2*y^4 + 3*a3*a4^2*x*y^5 + 3*a1*a2^2*a6*x*y^5 - 4*a2*a3*a6*x*y^5 -  4*a1*a4*a6*x*y^5 + a4^3*y^6 + a2^3*a6*y^6 - 4*a2*a4*a6*y^6 + 7*a6^2*y^6 +  a1*a3*x^5*z + a4*x^5*z + a2*a3*x^4*y*z - 2*a1*a4*x^4*y*z +  a1^3*a3*x^3*y^2*z - 2*a1*a2*a3*x^3*y^2*z - a3^2*x^3*y^2*z +  3*a1^2*a4*x^3*y^2*z - 2*a2*a4*x^3*y^2*z - 9*a6*x^3*y^2*z +  3*a1^2*a2*a3*x^2*y^3*z - 2*a2^2*a3*x^2*y^3*z - a1*a3^2*x^2*y^3*z +  4*a1*a2*a4*x^2*y^3*z - 7*a3*a4*x^2*y^3*z + 14*a1*a6*x^2*y^3*z +  3*a1*a2^2*a3*x*y^4*z - 4*a2*a3^2*x*y^4*z + a2^2*a4*x*y^4*z +  2*a1*a3*a4*x*y^4*z - 6*a4^2*x*y^4*z - 4*a1^2*a6*x*y^4*z + 9*a2*a6*x*y^4*z +  a2^3*a3*y^5*z - 4*a2*a3*a4*y^5*z + 3*a1*a4^2*y^5*z - 4*a1*a2*a6*y^5*z +  14*a3*a6*y^5*z - a2*x^4*z^2 + a1^3*x^3*y*z^2 + 2*a1*a2*x^3*y*z^2 -  a3*x^3*y*z^2 + 2*a2^2*x^2*y^2*z^2 + 7*a1*a3*x^2*y^2*z^2 + 8*a4*x^2*y^2*z^2 -  2*a1*a2^2*x*y^3*z^2 - a1^2*a3*x*y^3*z^2 + 14*a2*a3*x*y^3*z^2 -  7*a1*a4*x*y^3*z^2 - a2^3*y^4*z^2 - 4*a1*a2*a3*y^4*z^2 + 7*a3^2*y^4*z^2 +  3*a1^2*a4*y^4*z^2 + 5*a2*a4*y^4*z^2 - 13*a6*y^4*z^2 + x^3*z^3 -  a1*x^2*y*z^3 - a1^2*x*y^2*z^3 - 9*a2*x*y^2*z^3 + a1^3*y^3*z^3 +  5*a1*a2*y^3*z^3 - 13*a3*y^3*z^3 + 7*y^2*z^4 +  w*(a3*x^3 + a1*a3*x^2*y + a4*x^2*y + a2*a3*x*y^2 + a1*a4*x*y^2 + a2*a4*y^3 +    a6*y^3 + a1*x^2*z + a1^2*x*y*z + a1*a2*y^2*z + a3*y^2*z + y*z^2));
+K3 := Scheme(PW, w^2 - a6*x^6 + a1*a3^2*x^5*y + 3*a1*a6*x^5*y + a2*a3^2*x^4*y^2 +  2*a1*a3*a4*x^4*y^2 - 3*a1^2*a6*x^4*y^2 + 3*a2*a6*x^4*y^2 + a3^3*x^3*y^3 +  2*a2*a3*a4*x^3*y^3 + a1*a4^2*x^3*y^3 + a1^3*a6*x^3*y^3 - 6*a1*a2*a6*x^3*y^3 +  5*a3*a6*x^3*y^3 + 3*a3^2*a4*x^2*y^4 + a2*a4^2*x^2*y^4 +  3*a1^2*a2*a6*x^2*y^4 - 3*a2^2*a6*x^2*y^4 - 4*a1*a3*a6*x^2*y^4 +  5*a4*a6*x^2*y^4 + 3*a3*a4^2*x*y^5 + 3*a1*a2^2*a6*x*y^5 - 4*a2*a3*a6*x*y^5 -  4*a1*a4*a6*x*y^5 + a4^3*y^6 + a2^3*a6*y^6 - 4*a2*a4*a6*y^6 + 7*a6^2*y^6 +  a1*a3*x^5*z + a4*x^5*z + a2*a3*x^4*y*z - 2*a1*a4*x^4*y*z +  a1^3*a3*x^3*y^2*z - 2*a1*a2*a3*x^3*y^2*z - a3^2*x^3*y^2*z +  3*a1^2*a4*x^3*y^2*z - 2*a2*a4*x^3*y^2*z - 9*a6*x^3*y^2*z +  3*a1^2*a2*a3*x^2*y^3*z - 2*a2^2*a3*x^2*y^3*z - a1*a3^2*x^2*y^3*z +  4*a1*a2*a4*x^2*y^3*z - 7*a3*a4*x^2*y^3*z + 14*a1*a6*x^2*y^3*z +  3*a1*a2^2*a3*x*y^4*z - 4*a2*a3^2*x*y^4*z + a2^2*a4*x*y^4*z +  2*a1*a3*a4*x*y^4*z - 6*a4^2*x*y^4*z - 4*a1^2*a6*x*y^4*z + 9*a2*a6*x*y^4*z +  a2^3*a3*y^5*z - 4*a2*a3*a4*y^5*z + 3*a1*a4^2*y^5*z - 4*a1*a2*a6*y^5*z +  14*a3*a6*y^5*z - a2*x^4*z^2 + a1^3*x^3*y*z^2 + 2*a1*a2*x^3*y*z^2 -  a3*x^3*y*z^2 + 2*a2^2*x^2*y^2*z^2 + 7*a1*a3*x^2*y^2*z^2 + 8*a4*x^2*y^2*z^2 -  2*a1*a2^2*x*y^3*z^2 - a1^2*a3*x*y^3*z^2 + 14*a2*a3*x*y^3*z^2 -  7*a1*a4*x*y^3*z^2 - a2^3*y^4*z^2 - 4*a1*a2*a3*y^4*z^2 + 7*a3^2*y^4*z^2 +  3*a1^2*a4*y^4*z^2 + 5*a2*a4*y^4*z^2 - 13*a6*y^4*z^2 + x^3*z^3 -  a1*x^2*y*z^3 - a1^2*x*y^2*z^3 - 9*a2*x*y^2*z^3 + a1^3*y^3*z^3 +  5*a1*a2*y^3*z^3 - 13*a3*y^3*z^3 + 7*y^2*z^4 +  w*(a3*x^3 + a1*a3*x^2*y + a4*x^2*y + a2*a3*x*y^2 + a1*a4*x*y^2 + a2*a4*y^3 +    a6*y^3 + a1*x^2*z + a1^2*x*y*z + a1*a2*y^2*z + a3*y^2*z + y*z^2));
 return K3;
 end function;
+
+
 
 function KummerEll6(field, vec)
 a1 := vec[1];
@@ -380,6 +351,7 @@ phi := DivisorMap(3*D);
 P1
 
 field := GF(7);
+
 R<x1,z1,x2,z2,w> := PolynomialRing(field,5);
 B := [ideal< R | x1, z1>, ideal< R | x2, z2>];
 Zwts := [[1,1,0,0,2],[0,0,1,1,2]];
@@ -388,4 +360,62 @@ C := CoxRing(R,B,Zwts,Qwts);
 X := ToricVariety(C);
 S := Scheme(X, w^2-x1*z1*(x1-z1)*(x1+z1)*x2*z2*(x2-z2)*(x2+z2));
 IrreducibleComponents(JacobianSubrankScheme(S));
+
+
+K<a1,a2,a3,a4,a6,b1,b2,b3,b4,b6> := FunctionField(Rationals(),10);
+E1 := EllipticCurve([a1,a2,a3,a4,a6]);
+E2 := EllipticCurve([b1,b2,b3,b4,b6]);
+vec1 := [a1,a2,a3,a4,a6];
+vec2 := [b1,b2,b3,b4,b6];
+// R<x1,x2,z1,z2,w> := PolynomialRing(K,5);
+// B := [ideal< R | x1, z1>, ideal< R | x2, z2>];
+// Zwts := [[1,1,0,0,2],[0,0,1,1,2]];
+// Qwts := [];
+// C := CoxRing(R,B,Zwts,Qwts);
+// X := ToricVariety(C);
+K := GF(7);
+vec1 := [1, 1, 1, -135, -660];
+vec2 := [1, -1, 1, -6, -4];
+K2 := KummerEll2(K,vec1,vec2);
+//vec1 := [0, 0, 0, -1, 0];
+//vec2 := [0, 0, 0, -4, 0];
+a1 := vec1[1];
+a2 := vec1[2];
+a3 := vec1[3];
+a4 := vec1[4];
+a6 := vec1[5];
+b1 := vec2[1];
+b2 := vec2[2];
+b3 := vec2[3];
+b4 := vec2[4];
+b6 := vec2[5];
+E1 := EllipticCurve([a1,a2,a3,a4,a6]);
+E2 := EllipticCurve([b1,b2,b3,b4,b6]);
+P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(K, [2,2]);
+E1xE2 := Scheme(P22, [-X1^3 - a2*X1^2*Z1 + a1*X1*Y1*Z1 + Y1^2*Z1 - a4*X1*Z1^2 + a3*Y1*Z1^2 - a6*Z1^3, -X2^3 - b2*X2^2*Z2 + b1*X2*Y2*Z2 + Y2^2*Z2 - b4*X2*Z2^2 + b3*Y2*Z2^2 - b6*Z2^3]);
+Pw<x1x2, x1z2, z1x2, z1z2, w> := ProjectiveSpace(K,[1,1,1,1,2]); 
+phi := map<E1xE2->Pw | [X1*X2, X1*Z2, Z1*X2, Z1*Z2, (2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(b1*X2+b3*Z2)*Y1)*Z1*Z2]>;
+S := Image(phi);
+IrreducibleComponents(ReducedSubscheme(JacobianSubrankScheme(S)));
+
+
+
+
+
+K := GF(2);
+vec1 := [1, 1, 1, -135, -660];
+// vec1 := [0, 0, 0, -1, 0];
+a1 := vec1[1];
+a2 := vec1[2];
+a3 := vec1[3];
+a4 := vec1[4];
+a6 := vec1[5];
+P22<X1,Y1,Z1,X2,Y2,Z2> := ProductProjectiveSpace(K, [2,2]);
+ExE := Scheme(P22, [-X1^3 - a2*X1^2*Z1 + a1*X1*Y1*Z1 + Y1^2*Z1 - a4*X1*Z1^2 + a3*Y1*Z1^2 - a6*Z1^3, -X2^3 - a2*X2^2*Z2 + a1*X2*Y2*Z2 + Y2^2*Z2 - a4*X2*Z2^2 + a3*Y2*Z2^2 - a6*Z2^3]);
+Pw<x, y, z, w> := ProjectiveSpace(K,[1,1,1,3]); 
+phi := map<ExE->Pw | [X1*X2, X1*Z2 + Z1*X2, Z1*Z2, (2*Y1*Y2+(a1*X1+a3*Z1)*Y2+(a1*X2+a3*Z2)*Y1)*Z1*Z2*(X1*Z2 - Z1*X2)-X2*Z1^2*Z2*(a1*X1 + a3*Z1)*(a1*X2 + a3*Z2)]>;
+S := Image(phi,ExE,6);
+IrreducibleComponents(ReducedSubscheme(JacobianSubrankScheme(S)));
+
+
 
